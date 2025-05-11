@@ -1,0 +1,93 @@
+@startuml
+' --- Class Diagram ---
+' Abstract Class: SmartDevice
+abstract class SmartDevice {
+    + name: String
+    + isOn: Boolean
+    + turnOn()
+    + turnOff()
+    + getStatus(): String
+}
+
+' Concrete classes inheriting from SmartDevice
+class Light {
+    + turnOn()
+    + turnOff()
+    + getStatus(): String
+}
+
+class Thermostat {
+    + temperature: int
+    + turnOn()
+    + turnOff()
+    + setTemperature(int)
+    + getStatus(): String
+}
+
+class SecurityCamera {
+    + turnOn()
+    + turnOff()
+    + getStatus(): String
+}
+
+' Interface for controllable devices
+interface Controllable {
+    + turnOn()
+    + turnOff()
+}
+
+' SmartHome class with devices
+class SmartHome {
+    - devices: SmartDevice[]
+    + addDevice(Controllable)
+    + reportStatus()
+    + runAutomation()
+}
+
+' Services classes
+class SecurityService {
+    + check()
+}
+
+class DatabasesService {
+    + save(SmartDevice)
+}
+
+' Automation rule interface
+interface AutomationRule {
+    + visit(SmartDevice)
+}
+
+' Light Automation Rule implementation
+class LightAutomationRule {
+    + visit(SmartDevice)
+}
+
+' Relationships
+SmartDevice <|-- Light
+SmartDevice <|-- Thermostat
+SmartDevice <|-- SecurityCamera
+Controllable <|.. SmartDevice
+SmartHome "1" *-- "many" SmartDevice
+SmartHome "1" *-- "1" DatabasesService
+AutomationRule <|.. LightAutomationRule
+@enduml
+
+@startuml
+' --- Sequence Diagram ---
+autonumber
+actor User
+participant "SmartHome" as SH
+participant "Light" as L
+participant "Thermostat" as T
+
+User -> SH : Add Light device
+SH -> L : addDevice(Light)
+User -> SH : Turn on Light
+SH -> L : turnOn()
+L -> SH : return status
+
+User -> SH : Set Thermostat to 72°F
+SH -> T : setTemperature(72)
+T -> SH : return status
+@enduml
