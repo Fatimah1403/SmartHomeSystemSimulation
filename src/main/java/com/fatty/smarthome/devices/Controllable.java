@@ -1,4 +1,10 @@
 package com.fatty.smarthome.devices;
 
-public class Controllable {
+public interface Controllable {
+    void turnOn();
+    /**
+     * Turn the device off.
+     */
+    void turnOff();
+    String getStatus();
 }
