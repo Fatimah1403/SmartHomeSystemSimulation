@@ -49,6 +49,7 @@ public class SmartHome {
             for (SmartDevice device : devices) {
                 rule.visit(device);
             }
+            System.out.println("Automation rule executed successfully.");
         } catch (IllegalArgumentException e) {
             System.out.println("Error running automation: " + e.getMessage());
         }

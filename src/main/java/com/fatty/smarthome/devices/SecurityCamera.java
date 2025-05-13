@@ -14,8 +14,5 @@ public class SecurityCamera extends SmartDevice{
         isOn = false;
         System.out.println(name + " is now OFF. Stopped recording...");
     }
-    @Override
-    public String getStatus() {
-        return isOn ? "Recording" : "Not Recording"; // value added
-    }
+
 }

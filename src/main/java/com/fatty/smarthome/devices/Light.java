@@ -16,8 +16,4 @@ public class Light  extends SmartDevice {
         System.out.println(name + " is now OFF.");
     }
 
-    @Override
-    public String getStatus() {
-        return isOn ? "ON" : "OFF";
-    }
 }

@@ -1,6 +1,6 @@
 package com.fatty.smarthome.devices;
 
-public class SmartDevice implements Controllable {
+public abstract class SmartDevice implements Controllable {
     protected String name;
     protected boolean isOn;
 
@@ -13,18 +13,14 @@ public class SmartDevice implements Controllable {
     }
 
     @Override
-    public void turnOn() {
-
-    }
+    public abstract void turnOn();
 
     @Override
-    public void turnOff() {
-
-    }
+    public abstract void turnOff();
 
     @Override
     public String getStatus() {
-        return name + " is " + (isOn ? "on" : "off");
+        return name + " is " + (isOn ? "ON" : "OFF");
     }
     public String getName() {
         return name;

@@ -34,6 +34,7 @@ class SecurityCamera {
 interface Controllable {
     + turnOn()
     + turnOff()
+    + getStatus(): String
 }
 
 ' SmartHome class with devices
