@@ -1,4 +1,4 @@
-package com.fatty.smarthome;
+package com.fatty.smarthome.core;
 
 public class SecurityService {
     public boolean checkSecurity() {

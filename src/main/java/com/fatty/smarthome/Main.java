@@ -1,5 +1,7 @@
 package com.fatty.smarthome;
 
+import com.fatty.smarthome.core.LightAutomationRule;
+import com.fatty.smarthome.core.SmartHome;
 import com.fatty.smarthome.devices.Light;
 import com.fatty.smarthome.devices.SecurityCamera;
 import com.fatty.smarthome.devices.Thermostat;

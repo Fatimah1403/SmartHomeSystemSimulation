@@ -6,7 +6,7 @@ public class Thermostat extends SmartDevice {
     public Thermostat(String name) {
         super(name);
         // setting the temperature to °C instead of °F are value added
-        this.temperature = 70; // set default temperature , value added
+        this.temperature = 21; // set default temperature , value added
     }
     @Override
     public void turnOn() {
@@ -20,8 +20,8 @@ public class Thermostat extends SmartDevice {
 
     public void setTemperature(int temperature) {
         try { // All the try catches are value added
-            if (temperature < 50 || temperature > 90) {
-                throw new IllegalArgumentException("Temperature must be between 50°C and 90°C");// value added
+            if (temperature < 10 || temperature > 32) {
+                throw new IllegalArgumentException("Temperature must be between 10°C and 32°C");// value added
             }
             this.temperature = temperature;
         } catch (Exception e) {

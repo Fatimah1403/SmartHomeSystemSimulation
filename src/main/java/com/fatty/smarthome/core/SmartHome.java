@@ -1,4 +1,4 @@
-package com.fatty.smarthome;
+package com.fatty.smarthome.core;
 
 import com.fatty.smarthome.devices.Controllable;
 import com.fatty.smarthome.devices.SmartDevice;
@@ -21,7 +21,7 @@ public class SmartHome {
             if (!(device instanceof SmartDevice smartDevice)) {
                 throw new IllegalArgumentException("Device must be a SmartDevice");
             }
-            devices.add(smartDevice);
+            devices.add(smartDevice);//Upcasting: adding a specific device type(Light, Thermostat) as a SmartDevice
         } catch (IllegalArgumentException e) {
             System.out.println("Error adding device: " + e.getMessage());
         }

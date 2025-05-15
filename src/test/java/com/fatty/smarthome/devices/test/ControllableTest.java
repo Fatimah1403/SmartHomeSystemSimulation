@@ -1,5 +1,7 @@
-package com.fatty.smarthome.devices;
+package com.fatty.smarthome.devices.test;
 
+import com.fatty.smarthome.devices.Controllable;
+import com.fatty.smarthome.devices.Light;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

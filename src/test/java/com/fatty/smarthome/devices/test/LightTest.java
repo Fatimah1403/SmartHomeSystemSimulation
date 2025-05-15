@@ -1,6 +1,6 @@
-package com.fatty.smarthome.devices;
+package com.fatty.smarthome.devices.test;
 
-import org.junit.jupiter.api.Assertions.*;
+import com.fatty.smarthome.devices.Light;
 import org.junit.jupiter.api.*;
 
 import static junit.framework.Assert.*;

@@ -1,9 +1,7 @@
-package com.fatty.smarthome;
+package com.fatty.smarthome.core;
 
 import com.fatty.smarthome.devices.Light;
 import com.fatty.smarthome.devices.SmartDevice;
-
-import java.nio.channels.ScatteringByteChannel;
 
 public class LightAutomationRule implements AutomationRule {
     @Override

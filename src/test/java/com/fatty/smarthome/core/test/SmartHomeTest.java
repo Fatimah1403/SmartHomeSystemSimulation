@@ -1,5 +1,7 @@
-package com.fatty.smarthome;
+package com.fatty.smarthome.core.test;
 
+import com.fatty.smarthome.core.LightAutomationRule;
+import com.fatty.smarthome.core.SmartHome;
 import com.fatty.smarthome.devices.Light;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

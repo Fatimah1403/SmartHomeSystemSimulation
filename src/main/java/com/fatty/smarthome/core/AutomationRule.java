@@ -1,4 +1,4 @@
-package com.fatty.smarthome;
+package com.fatty.smarthome.core;
 
 import com.fatty.smarthome.devices.SmartDevice;
 

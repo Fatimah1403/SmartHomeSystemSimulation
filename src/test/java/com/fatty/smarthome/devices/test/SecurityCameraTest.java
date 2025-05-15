@@ -1,5 +1,6 @@
-package com.fatty.smarthome.devices;
+package com.fatty.smarthome.devices.test;
 
+import com.fatty.smarthome.devices.SecurityCamera;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
