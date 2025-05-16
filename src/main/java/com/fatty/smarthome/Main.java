@@ -1,14 +1,23 @@
 package com.fatty.smarthome;
 
+import com.fatty.smarthome.core.DatabaseService;
 import com.fatty.smarthome.core.LightAutomationRule;
 import com.fatty.smarthome.core.SmartHome;
 import com.fatty.smarthome.devices.Light;
 import com.fatty.smarthome.devices.SecurityCamera;
 import com.fatty.smarthome.devices.Thermostat;
+import com.fatty.smarthome.util.SmartHomeException;
 
 public class Main {
     public static void main(String[] args) {
         try{
+            DatabaseService dbService = new DatabaseService();
+            Light light = new Light("Test Light");
+            try {
+                dbService.save(light);
+            } catch (SmartHomeException e) {
+                System.err.println("Error: " + e.getMessage());
+            }
             SmartHome smartHome = new SmartHome();
 
             Light livingRoomLight = new Light("Living Room Light");

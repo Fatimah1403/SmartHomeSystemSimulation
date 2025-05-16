@@ -7,4 +7,6 @@ public interface Controllable {
      */
     void turnOff();
     String getStatus();
+    // VALUE-ADDED: Added getName to allow device identification in FacadeSmartHome
+    String getName();
 }
