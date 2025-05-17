@@ -1,1 +1,5 @@
-2025-05-15 13:21:19,Test Light,Test Light is OFF
+2025-05-17 14:30:23,LivingRoomLight,LivingRoomLight is OFF
+2025-05-17 14:30:37,LivingRoomLight,LivingRoomLight is ON
+2025-05-17 14:30:51,LivingRoomLight,LivingRoomLight is OFF
+2025-05-17 14:32:00,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-05-17 14:32:06,MainThermostat,MainThermostat is OFF Temperature: 24°C

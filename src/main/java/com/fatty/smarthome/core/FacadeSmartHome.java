@@ -14,7 +14,7 @@ public class FacadeSmartHome {
         smartHome = new SmartHome();
     }
 
-    public static FacadeSmartHome getInstance() {
+    public static FacadeSmartHome getTheInstance() {
         return INSTANCE;
     }
 
@@ -27,10 +27,10 @@ public class FacadeSmartHome {
      * POSTCONDITIONS: Command is executed; SmartHomeException thrown for invalid inputs or failures.
      */
     public String smartHomeAccess(String command, String deviceName, String value) throws SmartHomeException {
-        switch (command.toLowerCase()) { // value added don't want it to be case sensitive
+        switch (command.toLowerCase()) { // value added don't want it to be case-sensitive
             case "add":
                 Controllable device;
-                switch (value.toLowerCase()) { // value added don't want it to be case sensitive
+                switch (value.toLowerCase()) { // value added don't want it to be case-sensitive
                     case "light":
                         device = new Light(deviceName);
                         break;
@@ -56,9 +56,14 @@ public class FacadeSmartHome {
                 } catch (NumberFormatException e) {
                     throw new SmartHomeException("Invalid temperature: " + value);
                 }
+                // VALUE-ADDED: Temperature range validation
+                if (temp < 10 || temp > 32) {
+                    throw new SmartHomeException("Temperature must be between 10 and 32°C");
+                }
                 for (Controllable d : smartHome.getDevices()) {
                     if (d instanceof Thermostat t && t.getName().equals(deviceName)) {
                         t.setTemperature(temp);
+                        smartHome.saveDevice(t); // Log updated state
                         return "Set " + deviceName + " to " + temp + "°C";
                     }
 
@@ -69,6 +74,9 @@ public class FacadeSmartHome {
                 return "Automation rule applied";
             case "report":
                 return smartHome.reportStatus();
+            case "clearlog":
+                smartHome.clearLogFile();
+                return "Log file cleared successfully";
             default:
                 throw new SmartHomeException("Invalid command: " + command);
         }
@@ -79,9 +87,11 @@ public class FacadeSmartHome {
             if (device.getName().equals(deviceName)) {
                 if (turnOn) {
                     device.turnOn();
+                    smartHome.saveDevice(device); // Log updated state
                     return deviceName + " turned ON";
                 } else {
                     device.turnOff();
+                    smartHome.saveDevice(device); // Log updated state);
                     return deviceName + " turned OFF";
                 }
             }

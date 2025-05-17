@@ -3,6 +3,7 @@ package com.fatty.smarthome.core.test;
 import com.fatty.smarthome.core.LightAutomationRule;
 import com.fatty.smarthome.core.SmartHome;
 import com.fatty.smarthome.devices.Light;
+import com.fatty.smarthome.util.SmartHomeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,14 +20,14 @@ public class SmartHomeTest {
         light = new Light("Test Light");
     }
     @Test
-    void testAddDevice() {
+    void testAddDevice() throws SmartHomeException {
         smartHome.addDevice(light);
         assertEquals(1, smartHome.getDevices().size());
         assertEquals("Test Light", smartHome.getDevices().getFirst().getName());
     }
 
     @Test
-    void testRunAutomation() {
+    void testRunAutomation() throws SmartHomeException {
         smartHome.addDevice(light);
         light.turnOff();
         smartHome.runAutomation(new LightAutomationRule());
@@ -34,7 +35,7 @@ public class SmartHomeTest {
     }
 
     @Test
-    void testReportStatus() {
+    void testReportStatus() throws SmartHomeException {
         smartHome.addDevice(light);
         light.turnOn();
         String status = smartHome.reportStatus();

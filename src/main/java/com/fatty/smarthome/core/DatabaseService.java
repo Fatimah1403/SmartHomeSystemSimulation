@@ -61,4 +61,23 @@ public class DatabaseService {
         }
 
     }
+    public void clearLogFile() throws SmartHomeException {
+        File file = new File(LOG_FILE);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+                System.out.println("Created log file: " + LOG_FILE);
+            }
+            if (!file.canWrite()) {
+                throw new SmartHomeException("Cannot write to log file: " + LOG_FILE);
+            }
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_FILE))) {
+                writer.write(""); // Truncates file to empty
+                System.out.println("Log file cleared: " + LOG_FILE);
+
+            }
+        } catch (IOException e) {
+            throw new SmartHomeException("Failed to clear log file: " + e.getMessage());
+        }
+    }
 }
