@@ -4,12 +4,15 @@ import com.fatty.smarthome.core.FacadeSmartHome;
 import com.fatty.smarthome.util.SmartHomeException;
 
 import java.util.Scanner;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
-//        System.out.println("#### Week Two Addition Begins #######");
         System.out.println("Smart Home Automation System Simulation (type 'exit' to quit)");
-        System.out.println("Commands: add <name> <type>, turnOn <name>, turnOff <name>, setTemp <name> <temp>, automate, report");
+        System.out.println(
+                "Commands: add <name> <type>, turnOn <name>, turnOff <name>, " +
+                        "setTemp <name> <temp>, automate, report, clearlog, history"
+        );
         FacadeSmartHome facade = FacadeSmartHome.getTheInstance();
         Scanner scanner = new Scanner(System.in);
 
@@ -54,7 +57,9 @@ public class Main {
                             throw new SmartHomeException(command + " requires device name");
                         }
                     }
-                    if (command.equals("automate") || command.equals("report")) {
+                    // VALUE ADDED, in order to avoid duplicate commands
+                    Set<String> noArgCommands = Set.of("automate", "report", "clearlog", "history");
+                    if (noArgCommands.contains(command)) {
                         if (parts.length != 1) {
                             throw new SmartHomeException(command + " requires no arguments");
                         }

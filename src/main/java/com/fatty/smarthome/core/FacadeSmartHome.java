@@ -6,27 +6,39 @@ import com.fatty.smarthome.devices.SecurityCamera;
 import com.fatty.smarthome.devices.Thermostat;
 import com.fatty.smarthome.util.SmartHomeException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FacadeSmartHome {
     private static final FacadeSmartHome INSTANCE = new FacadeSmartHome();
-    private final  SmartHome smartHome;
+    private SmartHome smartHome;
+    private final List<String> commandHistory;
 
     private FacadeSmartHome() {
         smartHome = new SmartHome();
+        commandHistory = new ArrayList<>(); // value added>
     }
+
+    /**
+     * Returns the singleton instance of FacadeSmartHome.
+     * @return The singleton instance
+     */
 
     public static FacadeSmartHome getTheInstance() {
         return INSTANCE;
     }
 
     /**
-     * smartHomeAccess(String command, String deviceName, String value) / INTENT / EXAMPLE / DEFINITIONS / PRECONDITIONS / POSTCONDITIONS
-     * INTENT: Provide unified access to smart home functionality via CLI commands.
-     * EXAMPLE: smartHomeAccess("add", "Living Room Light", "light") -> Adds a Light device.
-     * DEFINITIONS: command - Action (add, turnOn, turnOff, setTemp, automate, report); deviceName - Device identifier; value - Optional parameter (e.g., temperature, device type).
-     * PRECONDITIONS: command is valid; deviceName is non-null for device-specific commands; value is valid for command (e.g., 10–32 for setTemp).
-     * POSTCONDITIONS: Command is executed; SmartHomeException thrown for invalid inputs or failures.
+     * Processes smart home commands.
+     * @param command The command (e.g., add, turnOn, setTemp)
+     * @param deviceName The device name
+     * @param value Additional parameter (e.g., device type, temperature)
+     * @return Result message
+     * @throws SmartHomeException If command is invalid or fails
      */
     public String smartHomeAccess(String command, String deviceName, String value) throws SmartHomeException {
+        String commandEntry = command + (deviceName.isEmpty() ? "" : " " + deviceName) + (value.isEmpty() ? "" : " " + value);
+        commandHistory.add(commandEntry.trim());
         switch (command.toLowerCase()) { // value added don't want it to be case-sensitive
             case "add":
                 Controllable device;
@@ -77,6 +89,8 @@ public class FacadeSmartHome {
             case "clearlog":
                 smartHome.clearLogFile();
                 return "Log file cleared successfully";
+            case "history":
+                return commandHistory.isEmpty() ? "No commands executed" : String.join("\n", commandHistory);
             default:
                 throw new SmartHomeException("Invalid command: " + command);
         }
@@ -98,4 +112,8 @@ public class FacadeSmartHome {
         }   throw new SmartHomeException("Device not found: " + deviceName);
 
     }
+    public  void reset() {
+        smartHome = new SmartHome();
+        commandHistory.clear();
+    } // value added for testing purpose
 }
