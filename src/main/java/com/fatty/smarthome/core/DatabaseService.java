@@ -3,10 +3,7 @@ package com.fatty.smarthome.core;
 import com.fatty.smarthome.devices.SmartDevice;
 import com.fatty.smarthome.util.SmartHomeException;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -78,6 +75,19 @@ public class DatabaseService {
             }
         } catch (IOException e) {
             throw new SmartHomeException("Failed to clear log file: " + e.getMessage());
+        }
+    }
+    public void validateLog() throws SmartHomeException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(LOG_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length != 3) {
+                    throw new SmartHomeException("Invalid log entry: " + line);
+                }
+            }
+        } catch (IOException e) {
+            throw new SmartHomeException("Failed to validate log file: " + LOG_FILE, e);
         }
     }
 }

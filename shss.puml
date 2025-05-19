@@ -1,94 +1,135 @@
 @startuml
-' --- Class Diagram ---
-' Abstract Class: SmartDevice
-abstract class SmartDevice {
-    + name: String
-    + isOn: Boolean
-    + turnOn()
-    + turnOff()
-    + getStatus(): String
+' --- Class Diagram for Smart Home System Simulation ---
+
+' Facade class
+class FacadeSmartHome {
+    - INSTANCE: FacadeSmartHome
+    - smartHome: SmartHome
+    - commandHistory: List<String> /#Red#/Added for history feature
+    + getTheInstance(): FacadeSmartHome
+    + smartHomeAccess(command: String, deviceName: String, value: String): String /#Red#/Handles file I/O, exceptions
+    + reset(): void /#Red#/Clears commandHistory
 }
 
-' Concrete classes inheriting from SmartDevice
+' SmartHome core class
+class SmartHome {
+    - devices: List<Controllable>
+    - dbService: DatabaseService
+    - securityService: SecurityService
+    + addDevice(device: Controllable): void
+    + getDevices(): List<Controllable>
+    + reportStatus(): String
+    + runAutomation(rule: AutomationRule): void
+    + saveDevice(device: Controllable): void
+    + clearLogFile(): void
+}
+
+' Abstract class: SmartDevice
+abstract class SmartDevice {
+    - name: String
+    - isOn: boolean
+    + turnOn(): void
+    + turnOff(): void
+    + getStatus(): String
+    + getName(): String
+}
+
+' Concrete device classes
 class Light {
-    + turnOn()
-    + turnOff()
+    + turnOn(): void
+    + turnOff(): void
     + getStatus(): String
 }
 
 class Thermostat {
-    + temperature: int
-    + turnOn()
-    + turnOff()
-    + setTemperature(int)
+    - temperature: int
+    + turnOn(): void
+    + turnOff(): void
+    + setTemperature(temp: int): void
     + getStatus(): String
 }
 
 class SecurityCamera {
-    + turnOn()
-    + turnOff()
+    + turnOn(): void
+    + turnOff(): void
     + getStatus(): String
 }
 
 ' Interface for controllable devices
 interface Controllable {
-    + turnOn()
-    + turnOff()
+    + turnOn(): void
+    + turnOff(): void
     + getStatus(): String
+    + getName(): String
 }
 
-' SmartHome class with devices
-class SmartHome {
-    - devices: SmartDevice[]
-    + addDevice(Controllable)
-    + reportStatus()
-    + runAutomation()
+' Service classes
+class DatabaseService {
+    + save(device: SmartDevice): void /#Red#/File I/O for device_log.txt
+    + clearLogFile(): void /#Red#/File I/O clearing
 }
 
-' Services classes
 class SecurityService {
-    + check()
-}
-
-class DatabasesService {
-    + save(SmartDevice)
+    + check(): String
 }
 
 ' Automation rule interface
 interface AutomationRule {
-    + visit(SmartDevice)
+    + visit(device: SmartDevice): void
 }
 
-' Light Automation Rule implementation
+' Light automation rule implementation
 class LightAutomationRule {
-    + visit(SmartDevice)
+    + visit(device: SmartDevice): void
+}
+
+' User-defined exception
+class SmartHomeException {
+    - message: String /#Red#/User-defined exception
+    + SmartHomeException(message: String)
+    + SmartHomeException(message: String, cause: Throwable)
 }
 
 ' Relationships
+'FacadeSmartHome "1" --> "1" SmartHome
+SmartHome "1" *--> "many" Controllable
+SmartHome "1" *--> "1" DatabaseService
+SmartHome "1" *--> "1" SecurityService
 SmartDevice <|-- Light
 SmartDevice <|-- Thermostat
 SmartDevice <|-- SecurityCamera
 Controllable <|.. SmartDevice
-SmartHome "1" *-- "many" SmartDevice
-SmartHome "1" *-- "1" DatabasesService
 AutomationRule <|.. LightAutomationRule
-@enduml
+SmartHome --> AutomationRule
+SmartHomeException <.. FacadeSmartHome : throws
+SmartHomeException <.. SmartHome : throws
+SmartHomeException <.. DatabaseService : throws
 
+@enduml
 @startuml
-' --- Sequence Diagram ---
+' --- Sequence Diagram for "add LivingRoomLight light" ---
+
 autonumber
 actor User
+participant "Main" as M
+participant "FacadeSmartHome" as F
 participant "SmartHome" as SH
 participant "Light" as L
-participant "Thermostat" as T
+participant "DatabaseService" as DB
 
-User -> SH : Add Light device
-SH -> L : addDevice(Light)
-User -> SH : Turn on Light
-SH -> L : turnOn()
-L -> SH : return status
+User -> M: input "add LivingRoomLight light"
+M -> F: smartHomeAccess("add", "LivingRoomLight", "light")
+F -> SH: addDevice(new Light("LivingRoomLight"))
+SH -> L: create Light("LivingRoomLight")
+SH -> DB: save(Light)
+DB -> device_log.txt: write "2025-05-17 21:52:22,LivingRoomLight,LivingRoomLight is OFF" /#Red#/File I/O
+DB --> SH: success
+SH --> F: success
+F --> M: "Added LivingRoomLight"
+M --> User: display "Added LivingRoomLight"
+alt Exception occurs
+    F --> M: throw SmartHomeException /#Red#/Exception handling
+    M --> User: display "Error: Invalid device type"
+end
 
-User -> SH : Set Thermostat to 72°F
-SH -> T : setTemperature(72)
-T -> SH : return status
 @enduml
