@@ -13,10 +13,14 @@ public abstract class SmartDevice implements Controllable {
     }
 
     @Override
-    public abstract void turnOn();
+    public void turnOn() {
+        isOn = true;
+    }
 
     @Override
-    public abstract void turnOff();
+    public void turnOff() {
+        isOn = false;
+    }
 
     @Override
     public String getStatus() {

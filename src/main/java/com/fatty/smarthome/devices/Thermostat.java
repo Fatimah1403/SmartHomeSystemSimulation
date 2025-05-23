@@ -10,12 +10,12 @@ public class Thermostat extends SmartDevice {
     }
     @Override
     public void turnOn() {
-        isOn = true;
-        System.out.println(name + " is now ON. Setting temperature to " + temperature + "°C.");// value added
+       super.turnOn();
+        System.out.println(getName() + " is now ON. Setting temperature to " + temperature + "°C.");// value added
     }
     public void turnOff() {
-        isOn = false;
-        System.out.println(name + " is now OFF.");
+        super.turnOff();
+        System.out.println(getName() + " is now OFF.");
     }
 
     public void setTemperature(int temperature) {

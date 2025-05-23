@@ -6,11 +6,35 @@ import com.fatty.smarthome.util.SmartHomeException;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 // placeholder for now, value added
 public class DatabaseService {
     private static final String LOG_FILE = "device_log.txt";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public static class LogEntry {
+        private final String timestamp;
+        private final String deviceName;
+        private final String status;
+
+        public LogEntry(String timestamp, String deviceName, String status) {
+            this.timestamp = timestamp;
+            this.deviceName = deviceName;
+            this.status = status;
+        }
+        public String getTimestamp() {
+            return timestamp;
+        }
+        public String getDeviceName() {
+            return deviceName;
+        }
+        public String getStatus() {
+            return status;
+        }
+    }
+
 
     /**
      * save(SmartDevice device) / INTENT / EXAMPLE / DEFINITIONS / PRECONDITIONS / POSTCONDITIONS
@@ -89,5 +113,25 @@ public class DatabaseService {
         } catch (IOException e) {
             throw new SmartHomeException("Failed to validate log file: " + LOG_FILE, e);
         }
+    }
+    public List<LogEntry> readLog() throws SmartHomeException {
+        List<LogEntry> logEntries = new ArrayList<>();
+        File file = new File(LOG_FILE);
+        if (!file.exists()) {
+            return logEntries; // Return empty list if file doesn't exist
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(LOG_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length != 3) {
+                    throw new SmartHomeException("Invalid log entry: " + line);
+                }
+                logEntries.add(new LogEntry(parts[0], parts[1], parts[2]));
+            }
+        } catch (IOException e) {
+            throw new SmartHomeException("Failed to read log file: " + LOG_FILE, e);
+        }
+        return logEntries;
     }
 }

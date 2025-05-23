@@ -6,14 +6,14 @@ public class Light  extends SmartDevice {
     }
     @Override
     public void turnOn() {
-        isOn = true;
-        System.out.println(name + " is now ON.");
+        super.turnOn();
+        System.out.println(getName() + " is now ON.");
     }
 
     @Override
     public void turnOff() {
-        isOn = false;
-        System.out.println(name + " is now OFF.");
+        super.turnOff();
+        System.out.println(getName() + " is now OFF.");
     }
 
 }

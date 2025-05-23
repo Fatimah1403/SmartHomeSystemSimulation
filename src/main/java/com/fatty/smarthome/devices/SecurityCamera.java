@@ -6,13 +6,13 @@ public class SecurityCamera extends SmartDevice{
     }
     @Override // value added because of coding convention
     public void turnOn() {
-        isOn = true;
-        System.out.println(name + " is now ON. Recording...."); // value added
+        super.turnOn();
+        System.out.println(getName() + " is now ON. Recording...."); // value added
     }
     @Override // value added because of coding convention
     public void turnOff() {
-        isOn = false;
-        System.out.println(name + " is now OFF. Stopped recording...");
+        super.turnOff();
+        System.out.println(getName() + " is now OFF. Stopped recording...");
     }
 
 }
