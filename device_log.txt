@@ -1,1 +1,3 @@
-2025-05-22 22:44:46,LivingRoomLight,LivingRoomLight is OFF
+2025-05-24 11:41:30,LivingRoomLight,LivingRoomLight is OFF
+2025-05-24 11:41:30,KitchenCamera,KitchenCamera is OFF
+2025-05-24 11:41:30,MainThermostat,MainThermostat is OFF Temperature: 21°C
