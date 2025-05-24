@@ -26,7 +26,7 @@ public class DeviceManager<T extends SmartDevice & Controllable> {
         }
         for (T d : devices) {
             if (d.getName().equals(device.getName())) {
-                throw new SmartHomeException("Device already exists " + device.getName());
+                throw new SmartHomeException("Device already exists: " + device.getName());
             }
         }
         devices.add(device);

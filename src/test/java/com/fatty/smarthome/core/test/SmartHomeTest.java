@@ -50,7 +50,7 @@ public class SmartHomeTest {
         assertDoesNotThrow(() -> smartHome.addDevice(light));
         SmartHomeException thrown = assertThrows(SmartHomeException.class, () ->
                 smartHome.addDevice(new Light("LivingRoomLight")));
-        assertEquals("Device already exists LivingRoomLight", thrown.getMessage());
+        assertEquals("Device already exists: LivingRoomLight", thrown.getMessage());
     }
 
     @Test

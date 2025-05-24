@@ -1,5 +1,7 @@
 package com.fatty.smarthome.devices;
 
+import com.fatty.smarthome.util.SmartHomeException;
+
 public class Thermostat extends SmartDevice {
     private int temperature;
 
@@ -21,10 +23,10 @@ public class Thermostat extends SmartDevice {
     public void setTemperature(int temperature) {
         try { // All the try catches are value added
             if (temperature < 10 || temperature > 32) {
-                throw new IllegalArgumentException("Temperature must be between 10°C and 32°C");// value added
+                throw new SmartHomeException("Temperature must be between 10°C and 32°C");// value added
             }
             this.temperature = temperature;
-        } catch (Exception e) {
+        } catch (SmartHomeException e) {
             System.out.println(e.getMessage());
         }
 

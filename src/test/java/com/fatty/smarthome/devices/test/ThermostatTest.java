@@ -1,40 +1,44 @@
-package com.fatty.smarthome.devices.test;
+package com.fatty.smarthome.devices;
 
-import com.fatty.smarthome.devices.Thermostat;
+import com.fatty.smarthome.util.SmartHomeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ThermostatTest {
     private Thermostat thermostat;
 
     @BeforeEach
     void setUp() {
-        thermostat = new Thermostat("Test Thermostat");
+        thermostat = new Thermostat("TestThermostat");
     }
+
     @Test
     void testSetTemperature() {
-        thermostat.setTemperature(75);
-        assertEquals(75, thermostat.getTemperature());
-        assertEquals("Test Thermostat is OFF, Temperature: 75°C", thermostat.getStatus());
+        thermostat.setTemperature(25);
+        assertEquals(25, thermostat.getTemperature());
+        assertEquals("TestThermostat is OFF, Temperature: 25°C", thermostat.getStatus());
     }
 
     @Test
     void testInvalidTemperature() {
-        thermostat.setTemperature(100);
-        assertEquals(70, thermostat.getTemperature());
+        int initialTemp = thermostat.getTemperature(); // 21
+        thermostat.setTemperature(100); // <span style="color:red">Removed assertThrows to align with caught exception, value-added for test accuracy.</span>
+        assertEquals(initialTemp, thermostat.getTemperature(), "Temperature should not change on invalid input");
         thermostat.setTemperature(40);
-        assertEquals(70, thermostat.getTemperature());
+        assertEquals(initialTemp, thermostat.getTemperature(), "Temperature should not change on invalid input");
     }
+
     @Test
     void testTurnOn() {
         thermostat.turnOn();
-        assertEquals("Test Thermostat is ON, Temperature: 70°C", thermostat.getStatus());
+        assertEquals("TestThermostat is ON, Temperature: 21°C", thermostat.getStatus());
     }
+
     @Test
     void testInvalidName() {
         assertThrows(IllegalArgumentException.class, () -> new Thermostat(null));
+        assertThrows(IllegalArgumentException.class, () -> new Thermostat(""));
     }
 }
