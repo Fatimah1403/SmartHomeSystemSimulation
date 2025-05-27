@@ -1,33 +1,44 @@
 @startuml
-' --- Class Diagram for Smart Home System Simulation ---
+' --- Class Diagram for Smart Home System Simulation (Updated for Assignment 3) ---
 
 ' Facade class
 class FacadeSmartHome {
-    - INSTANCE: FacadeSmartHome
+    - instance: FacadeSmartHome
     - smartHome: SmartHome
-    - commandHistory: List<String> /#Red#/Added for history feature
+    - commandHistory: List<String> /#Red#/ Added for history feature
     + getTheInstance(): FacadeSmartHome
-    + smartHomeAccess(command: String, deviceName: String, value: String): String /#Red#/Handles file I/O, exceptions
-    + reset(): void /#Red#/Clears commandHistory
+    + smartHomeAccess(command: String, deviceName: String, value: String): String /#Red#/ Handles CLI commands, file I/O, exceptions
+    + reset(): void /#Red#/ Clears commandHistory
 }
 
 ' SmartHome core class
 class SmartHome {
-    - devices: List<Controllable>
+    - deviceManager: DeviceManager
     - dbService: DatabaseService
     - securityService: SecurityService
-    + addDevice(device: Controllable): void
-    + getDevices(): List<Controllable>
+    + addDevice(device: SmartDevice): void
+    + getDevices(): List<SmartDevice>
     + reportStatus(): String
-    + runAutomation(rule: AutomationRule): void
-    + saveDevice(device: Controllable): void
-    + clearLogFile(): void
+    + runAutomation(): void
+    + saveDevice(device: SmartDevice): void
+    + clearLogFile(): String
 }
 
-' Abstract class: SmartDevice
+' Device manager with generics
+class DeviceManager<T extends SmartDevice & Controllable> {
+    - devices: List<T> /#Red#/ Generic type-safe device list
+    - dbService: DatabaseService
+    - securityService: SecurityService
+    + addDevice(device: T): void
+    + saveDevice(device: T): void
+    + getDevices(): List<T>
+}
+
+' Abstract class
 abstract class SmartDevice {
     - name: String
     - isOn: boolean
+    + SmartDevice(name: String)
     + turnOn(): void
     + turnOff(): void
     + getStatus(): String
@@ -36,20 +47,24 @@ abstract class SmartDevice {
 
 ' Concrete device classes
 class Light {
+    + Light(name: String)
     + turnOn(): void
     + turnOff(): void
     + getStatus(): String
 }
 
 class Thermostat {
-    - temperature: int
+    - temperature: int /#Red#/ Initialized to 21°C
+    + Thermostat(name: String)
     + turnOn(): void
     + turnOff(): void
-    + setTemperature(temp: int): void
+    + setTemperature(temp: int): void /#Red#/ Try-catch for error handling
+    + getTemperature(): int
     + getStatus(): String
 }
 
 class SecurityCamera {
+    + SecurityCamera(name: String)
     + turnOn(): void
     + turnOff(): void
     + getStatus(): String
@@ -65,12 +80,13 @@ interface Controllable {
 
 ' Service classes
 class DatabaseService {
-    + save(device: SmartDevice): void /#Red#/File I/O for device_log.txt
-    + clearLogFile(): void /#Red#/File I/O clearing
+    + save(device: SmartDevice): void /#Red#/ File I/O for device_log.txt
+    + clearLogFile(): void /#Red#/ File I/O clearing
+    + readLogFile(): List<String>
 }
 
 class SecurityService {
-    + check(): String
+    + checkSecurity<T extends SmartDevice & Controllable>(devices: List<T>): String /#Red#/ Generic security check
 }
 
 ' Automation rule interface
@@ -85,16 +101,35 @@ class LightAutomationRule {
 
 ' User-defined exception
 class SmartHomeException {
-    - message: String /#Red#/User-defined exception
+    - message: String /#Red#/ User-defined exception
     + SmartHomeException(message: String)
     + SmartHomeException(message: String, cause: Throwable)
 }
 
+' CLI entry point
+class Main {
+    + main(args: String[]): void /#Red#/ CLI entry point
+}
+
+' Test classes
+class ThermostatTest {
+    + testSetTemperature(): void
+    + testInvalidTemperature(): void /#Red#/ Aligned with try-catch, in com.fatty.smarthome.devices.test
+    + testTurnOn(): void
+    + testInvalidName(): void
+}
+
+class FacadeSmartHomeTest {
+    + testAddDevice(): void
+    + testSetTemperature(): void /#Red#/ Tests CLI commands, in com.fatty.smarthome.core.test
+}
+
 ' Relationships
-'FacadeSmartHome "1" --> "1" SmartHome
-SmartHome "1" *--> "many" Controllable
-SmartHome "1" *--> "1" DatabaseService
-SmartHome "1" *--> "1" SecurityService
+FacadeSmartHome "1" --> "1" SmartHome
+SmartHome "1" *--> "1" DeviceManager
+DeviceManager "1" *--> "many" SmartDevice
+DeviceManager "1" --> "1" DatabaseService
+DeviceManager "1" --> "1" SecurityService
 SmartDevice <|-- Light
 SmartDevice <|-- Thermostat
 SmartDevice <|-- SecurityCamera
@@ -103,33 +138,50 @@ AutomationRule <|.. LightAutomationRule
 SmartHome --> AutomationRule
 SmartHomeException <.. FacadeSmartHome : throws
 SmartHomeException <.. SmartHome : throws
+SmartHomeException <.. DeviceManager : throws
 SmartHomeException <.. DatabaseService : throws
+SmartHomeException <.. Thermostat : throws /#Red#/ Invalid temperature
+Main --> FacadeSmartHome : uses
+ThermostatTest --> Thermostat : tests
+FacadeSmartHomeTest --> FacadeSmartHome : tests
 
 @enduml
+
 @startuml
-' --- Sequence Diagram for "add LivingRoomLight light" ---
+' --- Sequence Diagram for "settemp MainThermostat 100" (Updated for Assignment 3) ---
 
 autonumber
 actor User
 participant "Main" as M
 participant "FacadeSmartHome" as F
 participant "SmartHome" as SH
-participant "Light" as L
+participant "DeviceManager" as DM
+participant "Thermostat" as T
 participant "DatabaseService" as DB
 
-User -> M: input "add LivingRoomLight light"
-M -> F: smartHomeAccess("add", "LivingRoomLight", "light")
-F -> SH: addDevice(new Light("LivingRoomLight"))
-SH -> L: create Light("LivingRoomLight")
-SH -> DB: save(Light)
-DB -> device_log.txt: write "2025-05-17 21:52:22,LivingRoomLight,LivingRoomLight is OFF" /#Red#/File I/O
-DB --> SH: success
-SH --> F: success
-F --> M: "Added LivingRoomLight"
-M --> User: display "Added LivingRoomLight"
-alt Exception occurs
-    F --> M: throw SmartHomeException /#Red#/Exception handling
-    M --> User: display "Error: Invalid device type"
+User -> M: input "settemp MainThermostat 100"
+M -> F: smartHomeAccess("settemp", "MainThermostat", "100")
+F -> SH: getDevices()
+SH -> DM: getDevices()
+DM --> SH: List<SmartDevice> /#Red#/ Generic device list
+SH --> F: List<SmartDevice>
+F -> T: setTemperature(100)
+T -> T: throw SmartHomeException("Temperature must be between 10°C and 32°C")
+T -> T: catch SmartHomeException, print error /#Red#/ Value-added try-catch
+F --> M: "Temperature unchanged: 21°C" /#Red#/ CLI feedback
+M --> User: display "Temperature must be between 10°C and 32°C\nTemperature unchanged: 21°C"
+alt Valid temperature (e.g., 25)
+    F -> T: setTemperature(25)
+    T --> F: success
+    F -> SH: saveDevice(Thermostat)
+    SH -> DM: saveDevice(Thermostat)
+    DM -> DB: save(Thermostat)
+    DB -> device_log.txt: write "2025-05-27 12:21:00,MainThermostat,MainThermostat is OFF, Temperature: 25°C" /#Red#/ File I/O
+    DB --> DM: success
+    DM --> SH: success
+    SH --> F: success
+    F --> M: "Set MainThermostat to 25°C"
+    M --> User: display "Set MainThermostat to 25°C"
 end
 
 @enduml
