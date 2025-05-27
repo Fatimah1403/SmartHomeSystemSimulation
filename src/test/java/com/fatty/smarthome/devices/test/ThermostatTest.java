@@ -25,9 +25,9 @@ public class ThermostatTest {
     void testInvalidTemperature() {
         int initialTemp = thermostat.getTemperature(); // 21
         thermostat.setTemperature(100); // <span style="color:red">Removed assertThrows to align with caught exception, value-added for test accuracy.</span>
-        assertEquals(initialTemp, thermostat.getTemperature(), "Temperature should not change on invalid input");
+        assertEquals(initialTemp, thermostat.getTemperature(), "Temperature should remain 21°C on invalid input");
         thermostat.setTemperature(40);
-        assertEquals(initialTemp, thermostat.getTemperature(), "Temperature should not change on invalid input");
+        assertEquals(initialTemp, thermostat.getTemperature(), "Temperature should remain 21°C on invalid input");
     }
 
     @Test

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FacadeSmartHome {
-    private static final FacadeSmartHome INSTANCE = new FacadeSmartHome();
+    private static volatile FacadeSmartHome instance;
     private final SmartHome smartHome;
     private final List<String> commandHistory;
 
@@ -24,7 +24,7 @@ public class FacadeSmartHome {
      * @return The singleton instance
      */
     public static FacadeSmartHome getTheInstance() {
-        return INSTANCE;
+        return instance;
     }
 
     /**
@@ -93,6 +93,29 @@ public class FacadeSmartHome {
             }
             default -> throw new SmartHomeException("Invalid command: " + command);
         };
+    }
+    private String setTemperature(String deviceName, String value) throws SmartHomeException {
+        try {
+            int temp = Integer.parseInt(value);
+            for (SmartDevice device : smartHome.getDevices()) {
+                if (device.getName().equals(deviceName)) {
+                    if (device instanceof Thermostat) {
+                        int oldTemp = ((Thermostat) device).getTemperature();
+                        ((Thermostat) device).setTemperature(temp);
+                        int newTemp = ((Thermostat) device).getTemperature();
+                        if (newTemp == oldTemp) {
+                            return "Temperature unchanged: " + newTemp + "°C";
+                        }
+                        smartHome.saveDevice(device);
+                        return "Set " + deviceName + " to " + temp + "°C";
+                    }
+                    throw new SmartHomeException("Device is not a thermostat: " + deviceName);
+                }
+            }
+            throw new SmartHomeException("Device not found: " + deviceName);
+        } catch (NumberFormatException e) {
+            throw new SmartHomeException("Invalid temperature value: " + value);
+        }
     }
 
     private String controlDevice(String deviceName, boolean turnOn) throws SmartHomeException {
