@@ -2,7 +2,7 @@ package com.fatty.smarthome.devices;
 
 public abstract class SmartDevice implements Controllable {
     protected String name;
-    protected boolean isOn;
+    public boolean isOn;
 
     public SmartDevice(String name) {
         if (name == null || name.trim().isEmpty()) {    // values added to check
@@ -28,5 +28,9 @@ public abstract class SmartDevice implements Controllable {
     }
     public String getName() {
         return name;
+    }
+
+    public boolean isOn() {
+        return isOn;
     }
 }

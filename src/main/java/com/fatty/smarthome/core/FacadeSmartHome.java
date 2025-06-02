@@ -24,7 +24,24 @@ public class FacadeSmartHome {
      * @return The singleton instance
      */
     public static FacadeSmartHome getTheInstance() {
+        if (instance == null) {
+            synchronized (FacadeSmartHome.class) {
+                if (instance == null) {
+                    instance = new FacadeSmartHome();
+                }
+            }
+        }
         return instance;
+    }
+
+    /**
+     *
+     * VALUE-ADDED: Gets all devices for GUI display
+     * Exposes device list for GUI without breaking encapsulation
+     * @return List of all devices
+     */
+    public List<SmartDevice> getDevices() {
+        return smartHome.getDevices();
     }
 
     /**
