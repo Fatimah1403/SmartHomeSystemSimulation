@@ -1,4 +1,4 @@
-package com.fatty.smarthome.devices;
+package com.fatty.smarthome.devices.test;
 
 import com.fatty.smarthome.util.SmartHomeException;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ThermostatTest {
-    private Thermostat thermostat;
+    private com.fatty.smarthome.devices.Thermostat thermostat;
 
     @BeforeEach
     void setUp() {
-        thermostat = new Thermostat("TestThermostat");
+        thermostat = new com.fatty.smarthome.devices.Thermostat("TestThermostat");
     }
 
     @Test
@@ -38,7 +38,7 @@ public class ThermostatTest {
 
     @Test
     void testInvalidName() {
-        assertThrows(IllegalArgumentException.class, () -> new Thermostat(null));
-        assertThrows(IllegalArgumentException.class, () -> new Thermostat(""));
+        assertThrows(IllegalArgumentException.class, () -> new com.fatty.smarthome.devices.Thermostat(null));
+        assertThrows(IllegalArgumentException.class, () -> new com.fatty.smarthome.devices.Thermostat(""));
     }
 }

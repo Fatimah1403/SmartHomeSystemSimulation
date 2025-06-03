@@ -1,6 +1,6 @@
 package com.fatty.smarthome.devices;
 
-public abstract class SmartDevice implements Controllable {
+public abstract class SmartDevice implements com.fatty.smarthome.devices.Controllable {
     protected String name;
     public boolean isOn;
 

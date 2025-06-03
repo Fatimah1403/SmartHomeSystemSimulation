@@ -1,6 +1,6 @@
 package com.fatty.smarthome.devices;
 
-public class SecurityCamera extends SmartDevice{
+public class SecurityCamera extends com.fatty.smarthome.devices.SmartDevice {
     public SecurityCamera(String name) {
         super(name);
     }

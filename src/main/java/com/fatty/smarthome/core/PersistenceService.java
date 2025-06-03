@@ -82,7 +82,7 @@ public class PersistenceService {
      * @throws SmartHomeException if save fails
      */
     public void saveDeviceStatesBinary(List<SmartDevice> devices) throws SmartHomeException {
-        List<DeviceState> states = devices.stream()
+        List<com.fatty.smarthome.core.DeviceState> states = devices.stream()
                 .map(this::convertToDeviceState)
                 .collect(Collectors.toList());
 
@@ -100,7 +100,7 @@ public class PersistenceService {
      * @throws SmartHomeException if load fails
      */
     @SuppressWarnings("unchecked") // Suppress warnings for casting Object to List<DeviceState>
-    public List<DeviceState> loadDeviceStatesBinary() throws SmartHomeException, FileNotFoundException {
+    public List<com.fatty.smarthome.core.DeviceState> loadDeviceStatesBinary() throws SmartHomeException, FileNotFoundException {
         File file = new File(BINARY_FILE);
 
         // Return empty list if file doesn't exist or is empty
@@ -109,7 +109,7 @@ public class PersistenceService {
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(BINARY_FILE))) {
             // Read and cast the object back to List<DeviceState>
-            return (List<DeviceState>) ois.readObject();
+            return (List<com.fatty.smarthome.core.DeviceState>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new SmartHomeException("Failed to load device states from binary file", e);
         }
@@ -121,7 +121,7 @@ public class PersistenceService {
      * @throws SmartHomeException if save fails
      */
     public void saveDeviceStatesJson(List<SmartDevice> devices) throws SmartHomeException {
-        List<DeviceState> states = devices.stream()
+        List<com.fatty.smarthome.core.DeviceState> states = devices.stream()
                 .map(this::convertToDeviceState)
                 .collect(Collectors.toList());
 
@@ -138,15 +138,15 @@ public class PersistenceService {
      * @return List of devices
      * @throws SmartHomeException if load fails
      */
-    public List<DeviceState> loadDeviceStatesJson() throws SmartHomeException {
+    public List<com.fatty.smarthome.core.DeviceState> loadDeviceStatesJson() throws SmartHomeException {
         File file = new File(JSON_FILE);
         if (!file.exists() || file.length() == 0) {
             return new ArrayList<>();
         }
         try (FileReader reader = new FileReader(JSON_FILE)) {
             // TypeToken is used to preserve generic type information at runtime
-            Type listType = new TypeToken<List<DeviceState>>() {}.getType();
-            List<DeviceState> states = gson.fromJson(reader, listType); // convert JSON to List<DeviceState>
+            Type listType = new TypeToken<List<com.fatty.smarthome.core.DeviceState>>() {}.getType();
+            List<com.fatty.smarthome.core.DeviceState> states = gson.fromJson(reader, listType); // convert JSON to List<DeviceState>
             return states != null ? states : new ArrayList<>();
         } catch (IOException e) {
             throw new SmartHomeException("Failed to load device states from JSON file", e);
@@ -159,8 +159,8 @@ public class PersistenceService {
      * @param device SmartDevice object
      * @return DeviceState object
      */
-    private DeviceState convertToDeviceState(SmartDevice device) {
-        DeviceState state = new DeviceState(
+    private com.fatty.smarthome.core.DeviceState convertToDeviceState(SmartDevice device) {
+        com.fatty.smarthome.core.DeviceState state = new com.fatty.smarthome.core.DeviceState(
                 device.getName(),
                 device.getClass().getSimpleName(),
                 device.isOn,
@@ -174,7 +174,7 @@ public class PersistenceService {
         }
         return state;
     }
-    public SmartDevice reconstructDevice(DeviceState state) throws SmartHomeException {
+    public SmartDevice reconstructDevice(com.fatty.smarthome.core.DeviceState state) throws SmartHomeException {
         // create the appropriate device type based on the saved type name
         SmartDevice device = switch (state.getDeviceType().toLowerCase()) {
             case "light" -> new Light(state.getDeviceName());

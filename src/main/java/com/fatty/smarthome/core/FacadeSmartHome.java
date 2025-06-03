@@ -11,11 +11,11 @@ import java.util.List;
 
 public class FacadeSmartHome {
     private static volatile FacadeSmartHome instance;
-    private final SmartHome smartHome;
+    private final com.fatty.smarthome.core.SmartHome smartHome;
     private final List<String> commandHistory;
 
     private FacadeSmartHome() {
-        smartHome = new SmartHome();
+        smartHome = new com.fatty.smarthome.core.SmartHome();
         commandHistory = new ArrayList<>();
     }
 
@@ -88,7 +88,7 @@ public class FacadeSmartHome {
                 throw new SmartHomeException("Thermostat not found: " + deviceName);
             }
             case "automate" -> {
-                smartHome.runAutomation(new LightAutomationRule());
+                smartHome.runAutomation(new com.fatty.smarthome.core.LightAutomationRule());
                 yield "Automation rule applied";
             }
             case "report" -> smartHome.reportStatus();
@@ -98,12 +98,12 @@ public class FacadeSmartHome {
             }
             case "history" -> commandHistory.isEmpty() ? "No commands executed" : String.join("\n", commandHistory);
             case "readlog" -> {
-                List<DatabaseService.LogEntry> logs = smartHome.readLog();
+                List<com.fatty.smarthome.core.DatabaseService.LogEntry> logs = smartHome.readLog();
                 if (logs.isEmpty()) {
                     yield "Log file is empty";
                 }
                 StringBuilder logOutput = new StringBuilder();
-                for (DatabaseService.LogEntry entry : logs) {
+                for (com.fatty.smarthome.core.DatabaseService.LogEntry entry : logs) {
                     logOutput.append(String.format("%s: %s - %s\n", entry.getTimestamp(), entry.getDeviceName(), entry.getStatus()));
                 }
                 yield logOutput.toString();

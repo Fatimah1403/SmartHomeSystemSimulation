@@ -1,7 +1,12 @@
 package com.fatty.smarthome.gui;
 
 import com.fatty.smarthome.core.*;
-import com.fatty.smarthome.devices.*;
+import com.fatty.smarthome.core.DeviceAnalytics;
+import com.fatty.smarthome.core.DeviceState;
+import com.fatty.smarthome.core.DeviceView;
+import com.fatty.smarthome.core.FacadeSmartHome;
+import com.fatty.smarthome.core.PersistenceService;
+import com.fatty.smarthome.devices.SmartDevice;import com.fatty.smarthome.devices.SmartDevice;
 import com.fatty.smarthome.util.SmartHomeException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -52,7 +57,6 @@ public class SmartHomeGUI extends Application {
 
     // Settings
     private boolean autoSaveEnabled = true;
-    private int autoSaveInterval = 30; // seconds
 
     @Override
     public void start(Stage primaryStage) {
@@ -70,12 +74,15 @@ public class SmartHomeGUI extends Application {
         primaryStage.setMinHeight(700);
         primaryStage.show();
 
+
         // Load saved devices
         loadDevices();
 
 
         // Start auto-save timer
         if (autoSaveEnabled) {
+            // seconds
+            int autoSaveInterval = 30;
             scheduler.scheduleAtFixedRate(this::autoSave, autoSaveInterval, autoSaveInterval, TimeUnit.SECONDS);
         }
 
@@ -103,6 +110,7 @@ public class SmartHomeGUI extends Application {
             System.exit(0);
         });
     }
+
 
     /**
      * Creates the main scene with all components.
@@ -345,7 +353,7 @@ public class SmartHomeGUI extends Application {
         actionsCol.setPrefWidth(150);
 
         table.getColumns().addAll(nameCol, typeCol, statusCol, powerCol, actionsCol);
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Updated to non-deprecated policy
 
         // Enable row selection
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -1005,8 +1013,8 @@ public class SmartHomeGUI extends Application {
         alert.setHeaderText("Smart Home System v2.0");
         alert.setContentText(
                 "Advanced Smart Home Management System\n\n" +
-                        "MET CS 622 - Advanced Programming I\n" +
-                        "Assignment 4 Implementation\n\n" +
+//                        "MET CS 622 - Advanced Programming I\n" +
+//                        "Assignment 4 Implementation\n\n" +
                         "Features:\n" +
                         "• Device Management (Lights, Thermostats, Cameras)\n" +
                         "• Real-time Control and Monitoring\n" +

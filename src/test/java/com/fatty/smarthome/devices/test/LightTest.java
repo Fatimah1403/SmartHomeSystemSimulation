@@ -3,7 +3,8 @@ package com.fatty.smarthome.devices.test;
 import com.fatty.smarthome.devices.Light;
 import org.junit.jupiter.api.*;
 
-import static junit.framework.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LightTest {

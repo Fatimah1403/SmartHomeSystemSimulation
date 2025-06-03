@@ -9,12 +9,12 @@ import java.util.List;
 // DeviceManager<SmartDevice> to satisfy generic bound T extends SmartDevice
 // & Controllable, preserving SmartHome as subsystem coordinator
 public class SmartHome {
-    private final DeviceManager<SmartDevice> deviceManager;
+    private final com.fatty.smarthome.core.DeviceManager<SmartDevice> deviceManager;
 
     public SmartHome() {
-        DatabaseService dbService = new DatabaseService();
-        SecurityService securityService = new SecurityService();
-        this.deviceManager = new DeviceManager<>(dbService, securityService);
+        com.fatty.smarthome.core.DatabaseService dbService = new com.fatty.smarthome.core.DatabaseService();
+        com.fatty.smarthome.core.SecurityService securityService = new com.fatty.smarthome.core.SecurityService();
+        this.deviceManager = new com.fatty.smarthome.core.DeviceManager<>(dbService, securityService);
     }
 
     public void addDevice(SmartDevice device) throws SmartHomeException {
@@ -33,7 +33,7 @@ public class SmartHome {
         return deviceManager.reportStatus();
     }
 
-    public void runAutomation(AutomationRule rule) throws SmartHomeException {
+    public void runAutomation(com.fatty.smarthome.core.AutomationRule rule) throws SmartHomeException {
         deviceManager.runAutomation(rule);
     }
 
@@ -41,7 +41,7 @@ public class SmartHome {
         deviceManager.clearLogFile();
     }
 
-    public List<DatabaseService.LogEntry> readLog() throws SmartHomeException {
+    public List<com.fatty.smarthome.core.DatabaseService.LogEntry> readLog() throws SmartHomeException {
         return deviceManager.readLog();
     }
 

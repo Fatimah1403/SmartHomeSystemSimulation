@@ -1,6 +1,6 @@
 package com.fatty.smarthome.devices;
 
-public class Light  extends SmartDevice {
+public class Light  extends com.fatty.smarthome.devices.SmartDevice {
     public Light(String name) {
         super(name);
     }

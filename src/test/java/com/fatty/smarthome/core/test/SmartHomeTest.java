@@ -3,6 +3,10 @@ package com.fatty.smarthome.core.test;
 
 import com.fatty.smarthome.core.*;
 
+import com.fatty.smarthome.core.DatabaseService;
+import com.fatty.smarthome.core.DeviceManager;
+import com.fatty.smarthome.core.LightAutomationRule;
+import com.fatty.smarthome.core.SecurityService;
 import com.fatty.smarthome.devices.Light;
 import com.fatty.smarthome.devices.SecurityCamera;
 import com.fatty.smarthome.devices.SmartDevice;

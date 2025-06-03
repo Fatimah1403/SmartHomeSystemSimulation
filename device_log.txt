@@ -1,0 +1,430 @@
+2025-06-02 18:45:20,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 18:45:56,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 18:46:17,FrontDoorCam,FrontDoorCam is OFF
+2025-06-02 18:47:04,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 18:47:24,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 18:48:15,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 18:48:33,MainThermostat,MainThermostat is OFF Temperature: 22°C
+2025-06-02 18:54:42,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 18:56:51,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 18:56:51,MainThermostat,MainThermostat is ON Temperature: 22°C
+2025-06-02 18:56:51,FrontDoorCam,FrontDoorCam is ON
+2025-06-02 18:56:51,BedroomThermostat,BedroomThermostat is ON Temperature: 21°C
+2025-06-02 18:57:43,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 18:57:43,MainThermostat,MainThermostat is OFF Temperature: 22°C
+2025-06-02 18:57:43,FrontDoorCam,FrontDoorCam is OFF
+2025-06-02 18:57:43,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 19:01:41,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 19:02:06,MainThermostat,MainThermostat is OFF Temperature: 22°C
+2025-06-02 19:08:09,FrontDoorCam,FrontDoorCam is ON
+2025-06-02 19:22:29,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 19:22:29,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 19:22:29,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 19:22:29,MainThermostat,MainThermostat is OFF Temperature: 22°C
+2025-06-02 19:22:29,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 19:22:29,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 19:27:24,GarageLight1,GarageLight1 is OFF
+2025-06-02 19:28:02,GarageLight2,GarageLight2 is OFF
+2025-06-02 19:28:25,GarageLight3,GarageLight3 is OFF
+2025-06-02 19:29:16,GarageLight1,GarageLight1 is ON
+2025-06-02 19:30:54,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 19:30:59,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 19:31:29,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 19:31:36,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 19:31:55,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 19:32:30,BasementThermostat,BasementThermostat is ON Temperature: 18°C
+2025-06-02 19:32:49,AtticThermostat,AtticThermostat is ON Temperature: 25°C
+2025-06-02 19:33:59,BackyardCam,BackyardCam is OFF
+2025-06-02 19:34:03,BackyardCam,BackyardCam is ON
+2025-06-02 19:34:18,GarageCam,GarageCam is OFF
+2025-06-02 19:34:30,GarageCam,GarageCam is ON
+2025-06-02 19:34:48,SideDoorCam,SideDoorCam is OFF
+2025-06-02 19:42:43,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 19:42:43,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 19:42:43,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 19:42:43,GarageLight1,GarageLight1 is OFF
+2025-06-02 19:42:43,GarageLight2,GarageLight2 is OFF
+2025-06-02 19:42:43,GarageLight3,GarageLight3 is OFF
+2025-06-02 19:42:43,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 19:42:43,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 19:42:43,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 19:54:02,DemoLight,DemoLight is OFF
+2025-06-02 19:54:02,DemoThermostat,DemoThermostat is OFF Temperature: 21°C
+2025-06-02 19:54:02,DemoCamera,DemoCamera is OFF
+2025-06-02 19:54:04,DemoLight,DemoLight is ON
+2025-06-02 19:54:04,DemoThermostat,DemoThermostat is OFF Temperature: 23°C
+2025-06-02 19:54:40,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 19:54:40,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 19:54:40,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 19:54:40,MainThermostat,MainThermostat is OFF Temperature: 22°C
+2025-06-02 19:54:40,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 19:54:40,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 19:54:40,GarageLight1,GarageLight1 is OFF
+2025-06-02 19:54:40,GarageLight1,GarageLight1 is ON
+2025-06-02 19:54:40,GarageLight2,GarageLight2 is OFF
+2025-06-02 19:54:40,GarageLight3,GarageLight3 is OFF
+2025-06-02 19:54:40,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 19:54:40,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 19:54:40,BasementThermostat,BasementThermostat is ON Temperature: 18°C
+2025-06-02 19:54:40,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 19:54:40,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 19:54:40,AtticThermostat,AtticThermostat is ON Temperature: 25°C
+2025-06-02 19:54:40,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 19:54:40,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 20:01:12,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 20:01:12,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 20:01:12,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 20:01:12,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 20:01:12,GarageLight1,GarageLight1 is OFF
+2025-06-02 20:01:12,GarageLight1,GarageLight1 is ON
+2025-06-02 20:01:12,GarageLight2,GarageLight2 is OFF
+2025-06-02 20:01:12,GarageLight3,GarageLight3 is OFF
+2025-06-02 20:01:12,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 20:01:12,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 20:01:12,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 20:01:12,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 20:01:12,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 20:18:38,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 20:18:38,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 20:18:38,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 20:18:38,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 20:18:38,GarageLight1,GarageLight1 is OFF
+2025-06-02 20:18:38,GarageLight1,GarageLight1 is ON
+2025-06-02 20:18:38,GarageLight2,GarageLight2 is OFF
+2025-06-02 20:18:38,GarageLight3,GarageLight3 is OFF
+2025-06-02 20:18:38,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 20:18:38,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 20:18:38,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 20:18:38,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 20:18:38,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 20:19:11,BedroomLight,BedroomLight is OFF
+2025-06-02 20:19:25,BedroomLight,BedroomLight is ON
+2025-06-02 20:19:45,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 20:20:44,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 20:20:47,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 20:20:48,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 20:20:53,GarageLight3,GarageLight3 is ON
+2025-06-02 22:29:32,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:29:32,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:29:32,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 22:29:32,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 22:29:32,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:29:32,GarageLight1,GarageLight1 is ON
+2025-06-02 22:29:32,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:29:32,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:29:32,GarageLight3,GarageLight3 is ON
+2025-06-02 22:29:32,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:29:32,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:29:32,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:29:32,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:29:32,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:29:32,BedroomLight,BedroomLight is OFF
+2025-06-02 22:29:32,BedroomLight,BedroomLight is ON
+2025-06-02 22:34:43,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:35:31,KitchenLight,KitchenLight is OFF
+2025-06-02 22:37:35,SideDoor,SideDoor is OFF
+2025-06-02 22:37:58,SideDoor,SideDoor is ON
+2025-06-02 22:38:02,SideDoor,SideDoor is ON
+2025-06-02 22:38:06,SideDoor,SideDoor is ON
+2025-06-02 22:40:40,SideDoor,SideDoor is ON
+2025-06-02 22:40:50,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:40:53,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:41:14,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:41:14,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:14,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:14,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:41:14,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:41:14,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:41:14,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:14,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:14,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:14,BedroomLight,BedroomLight is OFF
+2025-06-02 22:41:14,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:41:14,KitchenLight,KitchenLight is OFF
+2025-06-02 22:41:14,SideDoor,SideDoor is OFF
+2025-06-02 22:41:20,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:41:20,MainThermostat,MainThermostat is ON Temperature: 21°C
+2025-06-02 22:41:20,BedroomThermostat,BedroomThermostat is ON Temperature: 21°C
+2025-06-02 22:41:20,GarageLight1,GarageLight1 is ON
+2025-06-02 22:41:20,GarageLight2,GarageLight2 is ON
+2025-06-02 22:41:20,GarageLight3,GarageLight3 is ON
+2025-06-02 22:41:20,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:41:20,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:41:20,GuestRoomThermostat,GuestRoomThermostat is ON Temperature: 21°C
+2025-06-02 22:41:20,BedroomLight,BedroomLight is ON
+2025-06-02 22:41:20,MasterBedroom,MasterBedroom is ON
+2025-06-02 22:41:20,KitchenLight,KitchenLight is ON
+2025-06-02 22:41:20,SideDoor,SideDoor is ON
+2025-06-02 22:41:22,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:41:22,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:22,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:22,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:41:22,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:41:22,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:41:22,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:22,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:22,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:22,BedroomLight,BedroomLight is OFF
+2025-06-02 22:41:22,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:41:22,KitchenLight,KitchenLight is OFF
+2025-06-02 22:41:22,SideDoor,SideDoor is OFF
+2025-06-02 22:41:26,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:41:29,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:41:29,MainThermostat,MainThermostat is ON Temperature: 21°C
+2025-06-02 22:41:29,BedroomThermostat,BedroomThermostat is ON Temperature: 21°C
+2025-06-02 22:41:29,GarageLight1,GarageLight1 is ON
+2025-06-02 22:41:29,GarageLight2,GarageLight2 is ON
+2025-06-02 22:41:29,GarageLight3,GarageLight3 is ON
+2025-06-02 22:41:29,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:41:29,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:41:29,GuestRoomThermostat,GuestRoomThermostat is ON Temperature: 21°C
+2025-06-02 22:41:29,BedroomLight,BedroomLight is ON
+2025-06-02 22:41:29,MasterBedroom,MasterBedroom is ON
+2025-06-02 22:41:29,KitchenLight,KitchenLight is ON
+2025-06-02 22:41:29,SideDoor,SideDoor is ON
+2025-06-02 22:41:33,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:41:33,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:33,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:33,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:41:33,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:41:33,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:41:33,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:33,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:33,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:41:33,BedroomLight,BedroomLight is OFF
+2025-06-02 22:41:33,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:41:33,KitchenLight,KitchenLight is OFF
+2025-06-02 22:41:33,SideDoor,SideDoor is OFF
+2025-06-02 22:41:36,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:41:36,MainThermostat,MainThermostat is ON Temperature: 21°C
+2025-06-02 22:41:36,BedroomThermostat,BedroomThermostat is ON Temperature: 21°C
+2025-06-02 22:41:36,GarageLight1,GarageLight1 is ON
+2025-06-02 22:41:36,GarageLight2,GarageLight2 is ON
+2025-06-02 22:41:36,GarageLight3,GarageLight3 is ON
+2025-06-02 22:41:36,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:41:36,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:41:36,GuestRoomThermostat,GuestRoomThermostat is ON Temperature: 21°C
+2025-06-02 22:41:36,BedroomLight,BedroomLight is ON
+2025-06-02 22:41:36,MasterBedroom,MasterBedroom is ON
+2025-06-02 22:41:36,KitchenLight,KitchenLight is ON
+2025-06-02 22:41:36,SideDoor,SideDoor is ON
+2025-06-02 22:42:21,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:42:21,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 22:42:21,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 22:42:21,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:42:21,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:42:21,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:42:21,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:42:21,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:42:21,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:42:21,BedroomLight,BedroomLight is OFF
+2025-06-02 22:42:21,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:42:21,KitchenLight,KitchenLight is OFF
+2025-06-02 22:42:21,SideDoor,SideDoor is OFF
+2025-06-02 22:42:52,BedroomThermostat,BedroomThermostat is OFF Temperature: 22°C
+2025-06-02 22:44:02,MainThermostat,MainThermostat is OFF Temperature: 30°C
+2025-06-02 22:46:11,LivingRoom,LivingRoom is OFF
+2025-06-02 22:46:32,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:46:32,MainThermostat,MainThermostat is ON Temperature: 30°C
+2025-06-02 22:46:32,BedroomThermostat,BedroomThermostat is ON Temperature: 22°C
+2025-06-02 22:46:32,GarageLight1,GarageLight1 is ON
+2025-06-02 22:46:32,GarageLight2,GarageLight2 is ON
+2025-06-02 22:46:32,GarageLight3,GarageLight3 is ON
+2025-06-02 22:46:32,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:46:32,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:46:32,GuestRoomThermostat,GuestRoomThermostat is ON Temperature: 21°C
+2025-06-02 22:46:32,BedroomLight,BedroomLight is ON
+2025-06-02 22:46:32,MasterBedroom,MasterBedroom is ON
+2025-06-02 22:46:32,KitchenLight,KitchenLight is ON
+2025-06-02 22:46:32,SideDoor,SideDoor is ON
+2025-06-02 22:46:32,LivingRoom,LivingRoom is ON
+2025-06-02 22:46:35,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:46:35,MainThermostat,MainThermostat is OFF Temperature: 30°C
+2025-06-02 22:46:35,BedroomThermostat,BedroomThermostat is OFF Temperature: 22°C
+2025-06-02 22:46:35,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:46:35,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:46:35,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:46:35,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:46:35,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:46:35,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:46:35,BedroomLight,BedroomLight is OFF
+2025-06-02 22:46:35,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:46:35,KitchenLight,KitchenLight is OFF
+2025-06-02 22:46:35,SideDoor,SideDoor is OFF
+2025-06-02 22:46:35,LivingRoom,LivingRoom is OFF
+2025-06-02 22:46:37,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:46:37,MainThermostat,MainThermostat is ON Temperature: 30°C
+2025-06-02 22:46:37,BedroomThermostat,BedroomThermostat is ON Temperature: 22°C
+2025-06-02 22:46:37,GarageLight1,GarageLight1 is ON
+2025-06-02 22:46:37,GarageLight2,GarageLight2 is ON
+2025-06-02 22:46:37,GarageLight3,GarageLight3 is ON
+2025-06-02 22:46:37,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:46:37,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:46:37,GuestRoomThermostat,GuestRoomThermostat is ON Temperature: 21°C
+2025-06-02 22:46:37,BedroomLight,BedroomLight is ON
+2025-06-02 22:46:37,MasterBedroom,MasterBedroom is ON
+2025-06-02 22:46:37,KitchenLight,KitchenLight is ON
+2025-06-02 22:46:37,SideDoor,SideDoor is ON
+2025-06-02 22:46:37,LivingRoom,LivingRoom is ON
+2025-06-02 22:46:38,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:46:38,MainThermostat,MainThermostat is OFF Temperature: 30°C
+2025-06-02 22:46:38,BedroomThermostat,BedroomThermostat is OFF Temperature: 22°C
+2025-06-02 22:46:38,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:46:38,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:46:38,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:46:38,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:46:38,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:46:38,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:46:38,BedroomLight,BedroomLight is OFF
+2025-06-02 22:46:38,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:46:38,KitchenLight,KitchenLight is OFF
+2025-06-02 22:46:38,SideDoor,SideDoor is OFF
+2025-06-02 22:46:38,LivingRoom,LivingRoom is OFF
+2025-06-02 22:46:46,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:46:49,GarageLight1,GarageLight1 is ON
+2025-06-02 22:46:50,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:46:51,KitchenLight,KitchenLight is ON
+2025-06-02 22:46:54,BedroomLight,BedroomLight is ON
+2025-06-02 22:47:08,GarageLight3,GarageLight3 is ON
+2025-06-02 22:47:45,Lobby,Lobby is OFF
+2025-06-02 22:48:26,StoreEntrance,StoreEntrance is OFF
+2025-06-02 22:48:40,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:48:40,MainThermostat,MainThermostat is ON Temperature: 30°C
+2025-06-02 22:48:40,BedroomThermostat,BedroomThermostat is ON Temperature: 22°C
+2025-06-02 22:48:40,GarageLight1,GarageLight1 is ON
+2025-06-02 22:48:40,GarageLight2,GarageLight2 is ON
+2025-06-02 22:48:40,GarageLight3,GarageLight3 is ON
+2025-06-02 22:48:40,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:48:40,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:48:40,GuestRoomThermostat,GuestRoomThermostat is ON Temperature: 21°C
+2025-06-02 22:48:40,BedroomLight,BedroomLight is ON
+2025-06-02 22:48:40,MasterBedroom,MasterBedroom is ON
+2025-06-02 22:48:40,KitchenLight,KitchenLight is ON
+2025-06-02 22:48:40,SideDoor,SideDoor is ON
+2025-06-02 22:48:40,LivingRoom,LivingRoom is ON
+2025-06-02 22:48:40,Lobby,Lobby is ON
+2025-06-02 22:48:40,StoreEntrance,StoreEntrance is ON
+2025-06-02 22:48:41,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:48:41,MainThermostat,MainThermostat is ON Temperature: 30°C
+2025-06-02 22:48:41,BedroomThermostat,BedroomThermostat is ON Temperature: 22°C
+2025-06-02 22:48:41,GarageLight1,GarageLight1 is ON
+2025-06-02 22:48:41,GarageLight2,GarageLight2 is ON
+2025-06-02 22:48:41,GarageLight3,GarageLight3 is ON
+2025-06-02 22:48:41,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:48:41,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:48:41,GuestRoomThermostat,GuestRoomThermostat is ON Temperature: 21°C
+2025-06-02 22:48:41,BedroomLight,BedroomLight is ON
+2025-06-02 22:48:41,MasterBedroom,MasterBedroom is ON
+2025-06-02 22:48:41,KitchenLight,KitchenLight is ON
+2025-06-02 22:48:41,SideDoor,SideDoor is ON
+2025-06-02 22:48:41,LivingRoom,LivingRoom is ON
+2025-06-02 22:48:41,Lobby,Lobby is ON
+2025-06-02 22:48:41,StoreEntrance,StoreEntrance is ON
+2025-06-02 22:50:39,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:50:39,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:50:39,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 22:50:39,MainThermostat,MainThermostat is ON Temperature: 21°C
+2025-06-02 22:50:39,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 22:50:39,BedroomThermostat,BedroomThermostat is ON Temperature: 21°C
+2025-06-02 22:50:39,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:50:39,GarageLight1,GarageLight1 is ON
+2025-06-02 22:50:39,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:50:39,GarageLight2,GarageLight2 is ON
+2025-06-02 22:50:39,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:50:39,GarageLight3,GarageLight3 is ON
+2025-06-02 22:50:39,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:50:39,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:50:39,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:50:39,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:50:39,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:50:39,GuestRoomThermostat,GuestRoomThermostat is ON Temperature: 21°C
+2025-06-02 22:50:39,BedroomLight,BedroomLight is OFF
+2025-06-02 22:50:39,BedroomLight,BedroomLight is ON
+2025-06-02 22:50:39,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:50:39,MasterBedroom,MasterBedroom is ON
+2025-06-02 22:50:39,KitchenLight,KitchenLight is OFF
+2025-06-02 22:50:39,KitchenLight,KitchenLight is ON
+2025-06-02 22:50:39,LivingRoom,LivingRoom is OFF
+2025-06-02 22:50:39,LivingRoom,LivingRoom is ON
+2025-06-02 22:50:39,Lobby,Lobby is OFF
+2025-06-02 22:50:39,Lobby,Lobby is ON
+2025-06-02 22:50:39,StoreEntrance,StoreEntrance is OFF
+2025-06-02 22:50:39,StoreEntrance,StoreEntrance is ON
+2025-06-02 22:51:17,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:51:17,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 22:51:17,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 22:51:17,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:51:17,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:51:17,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:51:17,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:51:17,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:51:17,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:51:17,BedroomLight,BedroomLight is OFF
+2025-06-02 22:51:17,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:51:17,KitchenLight,KitchenLight is OFF
+2025-06-02 22:51:17,LivingRoom,LivingRoom is OFF
+2025-06-02 22:51:17,Lobby,Lobby is OFF
+2025-06-02 22:51:17,StoreEntrance,StoreEntrance is OFF
+2025-06-02 22:51:24,LivingRoomLight,LivingRoomLight is ON
+2025-06-02 22:51:24,MainThermostat,MainThermostat is ON Temperature: 21°C
+2025-06-02 22:51:24,BedroomThermostat,BedroomThermostat is ON Temperature: 21°C
+2025-06-02 22:51:24,GarageLight1,GarageLight1 is ON
+2025-06-02 22:51:24,GarageLight2,GarageLight2 is ON
+2025-06-02 22:51:24,GarageLight3,GarageLight3 is ON
+2025-06-02 22:51:24,BasementThermostat,BasementThermostat is ON Temperature: 21°C
+2025-06-02 22:51:24,AtticThermostat,AtticThermostat is ON Temperature: 21°C
+2025-06-02 22:51:24,GuestRoomThermostat,GuestRoomThermostat is ON Temperature: 21°C
+2025-06-02 22:51:24,BedroomLight,BedroomLight is ON
+2025-06-02 22:51:24,MasterBedroom,MasterBedroom is ON
+2025-06-02 22:51:24,KitchenLight,KitchenLight is ON
+2025-06-02 22:51:24,LivingRoom,LivingRoom is ON
+2025-06-02 22:51:24,Lobby,Lobby is ON
+2025-06-02 22:51:24,StoreEntrance,StoreEntrance is ON
+2025-06-02 22:52:16,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:52:16,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 22:52:16,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 22:52:16,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:52:16,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:52:16,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:52:16,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:52:16,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:52:16,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:52:16,BedroomLight,BedroomLight is OFF
+2025-06-02 22:52:16,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:52:16,KitchenLight,KitchenLight is OFF
+2025-06-02 22:52:16,LivingRoom,LivingRoom is OFF
+2025-06-02 22:52:16,Lobby,Lobby is OFF
+2025-06-02 22:52:16,StoreEntrance,StoreEntrance is OFF
+2025-06-02 22:52:22,GarageLight1,GarageLight1 is ON
+2025-06-02 22:59:48,LivingRoomLight,LivingRoomLight is OFF
+2025-06-02 22:59:48,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-02 22:59:48,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-02 22:59:48,GarageLight1,GarageLight1 is OFF
+2025-06-02 22:59:48,GarageLight1,GarageLight1 is ON
+2025-06-02 22:59:48,GarageLight2,GarageLight2 is OFF
+2025-06-02 22:59:48,GarageLight3,GarageLight3 is OFF
+2025-06-02 22:59:48,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-02 22:59:48,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-02 22:59:48,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-02 22:59:48,BedroomLight,BedroomLight is OFF
+2025-06-02 22:59:48,MasterBedroom,MasterBedroom is OFF
+2025-06-02 22:59:48,KitchenLight,KitchenLight is OFF
+2025-06-02 22:59:48,LivingRoom,LivingRoom is OFF
+2025-06-02 22:59:48,Lobby,Lobby is OFF
+2025-06-02 22:59:48,StoreEntrance,StoreEntrance is OFF
+2025-06-03 00:36:21,LivingRoomLight,LivingRoomLight is OFF
+2025-06-03 00:36:21,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-03 00:36:21,BedroomThermostat,BedroomThermostat is OFF Temperature: 21°C
+2025-06-03 00:36:21,GarageLight1,GarageLight1 is OFF
+2025-06-03 00:36:21,GarageLight1,GarageLight1 is ON
+2025-06-03 00:36:21,GarageLight2,GarageLight2 is OFF
+2025-06-03 00:36:21,GarageLight3,GarageLight3 is OFF
+2025-06-03 00:36:21,BasementThermostat,BasementThermostat is OFF Temperature: 21°C
+2025-06-03 00:36:21,AtticThermostat,AtticThermostat is OFF Temperature: 21°C
+2025-06-03 00:36:21,GuestRoomThermostat,GuestRoomThermostat is OFF Temperature: 21°C
+2025-06-03 00:36:21,BedroomLight,BedroomLight is OFF
+2025-06-03 00:36:21,MasterBedroom,MasterBedroom is OFF
+2025-06-03 00:36:21,KitchenLight,KitchenLight is OFF
+2025-06-03 00:36:21,LivingRoom,LivingRoom is OFF
+2025-06-03 00:36:21,Lobby,Lobby is OFF
+2025-06-03 00:36:21,StoreEntrance,StoreEntrance is OFF

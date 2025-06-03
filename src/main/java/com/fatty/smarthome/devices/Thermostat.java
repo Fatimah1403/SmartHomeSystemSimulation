@@ -2,7 +2,7 @@ package com.fatty.smarthome.devices;
 
 import com.fatty.smarthome.util.SmartHomeException;
 
-public class Thermostat extends SmartDevice {
+public class Thermostat extends com.fatty.smarthome.devices.SmartDevice {
     private int temperature;
 
     public Thermostat(String name) {
