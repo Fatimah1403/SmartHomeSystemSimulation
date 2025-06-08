@@ -1,0 +1,10 @@
+com/fatty/smarthome/devices/test/SecurityCameraTest.class
+com/fatty/smarthome/devices/test/ThermostatTest.class
+com/fatty/smarthome/core/test/SmartHomeTest.class
+com/fatty/smarthome/core/test/PersistenceServiceTest.class
+com/fatty/smarthome/core/test/DeviceAnalyticsTest.class
+com/fatty/smarthome/devices/test/ControllableTest.class
+com/fatty/smarthome/devices/test/LightTest.class
+com/fatty/smarthome/core/test/DeviceViewTest.class
+com/fatty/smarthome/devices/test/SmartDeviceTest.class
+com/fatty/smarthome/core/test/FacadeSmartHomeTest.class

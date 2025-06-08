@@ -1,0 +1,3 @@
+2025-06-08 10:11:41,LivingRoom,LivingRoom is OFF
+2025-06-08 10:11:54,LivingRoom,LivingRoom is ON
+2025-06-08 10:11:56,LivingRoom,LivingRoom is ON
