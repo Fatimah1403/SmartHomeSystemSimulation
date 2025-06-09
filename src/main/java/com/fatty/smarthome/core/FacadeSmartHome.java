@@ -8,6 +8,7 @@ import com.fatty.smarthome.util.SmartHomeException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FacadeSmartHome {
     private static volatile FacadeSmartHome instance;
@@ -43,6 +44,12 @@ public class FacadeSmartHome {
     public List<SmartDevice> getDevices() {
         return smartHome.getDevices();
     }
+    public Optional<SmartDevice> getDevice(String name) {
+        return smartHome.getDevices().stream()
+                .filter(device -> device.getName().equals(name))
+                .findFirst();
+    }
+
 
     /**
      * Processes smart home commands.

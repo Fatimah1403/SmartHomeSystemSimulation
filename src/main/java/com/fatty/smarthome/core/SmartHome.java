@@ -3,7 +3,6 @@ package com.fatty.smarthome.core;
 import com.fatty.smarthome.devices.SmartDevice;
 import com.fatty.smarthome.util.SmartHomeException;
 import java.util.List;
-import com.fatty.smarthome.core.DeviceManager;
 
 // Changed DeviceManager<Controllable> to
 // DeviceManager<SmartDevice> to satisfy generic bound T extends SmartDevice
@@ -33,7 +32,7 @@ public class SmartHome {
         return deviceManager.reportStatus();
     }
 
-    public void runAutomation(AutomationRule rule) throws SmartHomeException {
+    public void runAutomation(ConcurrentRule rule) throws SmartHomeException {
         deviceManager.runAutomation(rule);
     }
 
