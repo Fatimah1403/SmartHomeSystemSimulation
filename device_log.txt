@@ -12,3 +12,12 @@
 2025-06-08 21:17:58,LivingRoom,LivingRoom is ON
 2025-06-08 21:18:02,LivingRoom,LivingRoom is ON
 2025-06-08 21:18:06,LivingRoom,LivingRoom is OFF
+2025-06-09 18:45:16,LivingRoom,LivingRoom is OFF
+2025-06-10 18:42:05,LivingRoom,LivingRoom is OFF
+2025-06-10 18:42:42,LivingRoom,LivingRoom is OFF
+2025-06-10 18:43:04,LobbyLight,LobbyLight is OFF
+2025-06-10 18:43:04,LobbyLight,LobbyLight is ON
+2025-06-10 21:34:31,LivingLight,LivingLight is OFF
+2025-06-10 21:35:02,LivingLight,LivingLight is ON
+2025-06-10 21:35:07,MainThermostat,MainThermostat is OFF Temperature: 21°C
+2025-06-10 21:35:37,FrontCamera,FrontCamera is OFF

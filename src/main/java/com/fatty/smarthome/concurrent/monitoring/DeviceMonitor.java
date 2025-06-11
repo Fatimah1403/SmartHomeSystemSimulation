@@ -1,4 +1,4 @@
-package com.fatty.smarthome.concurrent;
+package com.fatty.smarthome.concurrent.monitoring;
 
 import com.fatty.smarthome.devices.SmartDevice;
 import com.fatty.smarthome.devices.Thermostat;

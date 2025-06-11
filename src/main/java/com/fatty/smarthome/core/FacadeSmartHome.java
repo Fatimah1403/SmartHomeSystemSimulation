@@ -8,12 +8,21 @@ import com.fatty.smarthome.util.SmartHomeException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class FacadeSmartHome {
     private static volatile FacadeSmartHome instance;
     private final SmartHome smartHome;
     private final List<String> commandHistory;
+    // Change the devices list to thread-safe implementation
+    private final List<SmartDevice> devices = new CopyOnWriteArrayList<>();
+
+    // Add device lookup cache for performance
+    private final Map<String, SmartDevice> deviceCache = new ConcurrentHashMap<>();
 
     private FacadeSmartHome() {
         smartHome = new SmartHome();
@@ -34,6 +43,46 @@ public class FacadeSmartHome {
         }
         return instance;
     }
+    /**
+     * Thread-safe method to add a device
+     */
+    public synchronized void addDevice(SmartDevice device) throws SmartHomeException {
+        if (device == null) {
+            throw new IllegalArgumentException("Device cannot be null");
+        }
+
+        // Check for duplicate
+        if (deviceCache.containsKey(device.getName())) {
+            throw new IllegalArgumentException("Device already exists: " + device.getName());
+        }
+
+        devices.add(device);
+        deviceCache.put(device.getName(), device);
+
+        // Also add to the internal SmartHome instance
+        smartHome.addDevice(device);
+        System.out.println("✅ Device added: " + device.getName());
+    }
+
+    /**
+     * Thread-safe method to remove a device
+     */
+    public synchronized boolean removeDevice(String deviceName) {
+        SmartDevice device = deviceCache.remove(deviceName);
+        if (device != null) {
+            devices.remove(device);
+            System.out.println("✅ Device removed: " + deviceName);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get device by name (thread-safe)
+     */
+    public Optional<SmartDevice> getDevice(String name) {
+        return Optional.ofNullable(deviceCache.get(name));
+    }
 
     /**
      *
@@ -41,14 +90,47 @@ public class FacadeSmartHome {
      * Exposes device list for GUI without breaking encapsulation
      * @return List of all devices
      */
+    /**
+     * Get a copy of all devices (thread-safe)
+     */
     public List<SmartDevice> getDevices() {
-        return smartHome.getDevices();
+        return new ArrayList<>(devices);
     }
-    public Optional<SmartDevice> getDevice(String name) {
-        return smartHome.getDevices().stream()
-                .filter(device -> device.getName().equals(name))
-                .findFirst();
+
+    /**
+     * Get devices by type (thread-safe)
+     */
+    public List<SmartDevice> getDevicesByType(Class<? extends SmartDevice> type) {
+        return devices.stream()
+                .filter(type::isInstance)
+                .collect(Collectors.toList());
     }
+
+    /**
+     * Execute operation on all devices (thread-safe)
+     */
+    public void executeOnAllDevices(java.util.function.Consumer<SmartDevice> operation) {
+        devices.parallelStream().forEach(operation);
+    }
+
+    /**
+     * Get device count by type
+     */
+    public Map<String, Long> getDeviceCountByType() {
+        return devices.stream()
+                .collect(Collectors.groupingBy(
+                        device -> device.getClass().getSimpleName(),
+                        Collectors.counting()
+                ));
+    }
+
+    /**
+     * Check if system has devices
+     */
+    public boolean hasDevices() {
+        return !devices.isEmpty();
+    }
+
 
 
     /**
@@ -159,8 +241,16 @@ public class FacadeSmartHome {
         throw new SmartHomeException("Device not found: " + deviceName);
     }
 
-    public void reset() {
-        smartHome.reset();
-        commandHistory.clear();
+//    public void reset() {
+//        smartHome.reset();
+//        commandHistory.clear();
+//    }
+    /**
+     * Reset the system (thread-safe)
+     */
+    public synchronized void reset() {
+        devices.clear();
+        deviceCache.clear();
+        System.out.println("✅ System reset complete");
     }
 }

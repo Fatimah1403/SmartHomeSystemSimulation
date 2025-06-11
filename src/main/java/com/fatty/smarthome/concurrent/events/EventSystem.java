@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import com.fatty.smarthome.concurrent.events.Event;
+import com.fatty.smarthome.concurrent.events.EventType;
+import com.fatty.smarthome.concurrent.events.EventListener;
 
 
 public class EventSystem {
@@ -12,6 +17,14 @@ public class EventSystem {
     private final Map<EventType, List<EventListener>> listeners;
     private volatile boolean running = false;
     private final List<Thread> processorThreads;
+
+    // Statistics
+    private final AtomicLong totalEvents = new AtomicLong(0);
+    private final Map<EventType, AtomicInteger> eventCounts = new ConcurrentHashMap<>();
+    private final AtomicInteger activeListeners = new AtomicInteger(0);
+
+
+
 
     /**
      * Event class containing event data
@@ -51,8 +64,7 @@ public class EventSystem {
             }
         }
 
-        @Override
-        public String getName() { return "AlertListener"; }
+
     }
 
     public EventSystem(int processorThreads) {
@@ -221,5 +233,26 @@ public class EventSystem {
                 totalListeners,
                 running
         );
+    }
+    /**
+     * Clear all statistics
+     */
+    public void clearStatistics() {
+        totalEvents.set(0);
+        eventCounts.values().forEach(count -> count.set(0));
+    }
+
+    /**
+     * Get queue size
+     */
+    public int getQueueSize() {
+        return eventQueue.size();
+    }
+
+    /**
+     * Check if system is running
+     */
+    public boolean isRunning() {
+        return running;
     }
 }

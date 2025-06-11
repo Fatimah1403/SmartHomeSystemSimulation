@@ -3,7 +3,7 @@ package com.fatty.smarthome.core;
 import com.fatty.smarthome.devices.Light;
 import com.fatty.smarthome.devices.SmartDevice;
 
-public class LightAutomationRule implements ConcurrentRule {
+public class LightAutomationRule implements AutomationRule {
     @Override
     public void visit(SmartDevice device) {
         try {

@@ -1,6 +1,5 @@
 package com.fatty.smarthome.concurrent.automation;
 
-import com.fatty.smarthome.core.ConcurrentRule;
 import com.fatty.smarthome.core.FacadeSmartHome;
 import com.fatty.smarthome.devices.SmartDevice;
 
@@ -18,6 +17,8 @@ public class AutomationEngine {
     private final ExecutorService ruleExecutor;
     private final List<ConcurrentRule> rules = new CopyOnWriteArrayList<>();
     private final Map<String, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
+    private volatile boolean running = false;
+
 
     public interface ConcurrentRule {
         String getName();
@@ -44,8 +45,8 @@ public class AutomationEngine {
     /**
      * Add a rule to the automation engine
      */
-    public void addRule(com.fatty.smarthome.concurrent.automation.ConcurrentRule rule) {
-        rules.add((ConcurrentRule) rule);
+    public void addRule(ConcurrentRule rule) {
+        rules.add(rule);
         System.out.println("➕ Added automation rule: " + rule.getName());
     }
 
@@ -90,7 +91,53 @@ public class AutomationEngine {
             System.err.println("❌ Error in rule execution: " + e.getMessage());
         }
     }
+    /**
+     * Stop the automation engine
+     */
+    /**
+     * Stop the automation engine
+     */
+    public void stop() {
+        // Cancel all scheduled tasks
+        scheduledTasks.values().forEach(future -> future.cancel(false));
+        scheduledTasks.clear();
 
+        // Shutdown executors
+        scheduler.shutdown();
+        ruleExecutor.shutdown();
+
+        try {
+            if (!scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
+                scheduler.shutdownNow();
+            }
+            if (!ruleExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
+                ruleExecutor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            scheduler.shutdownNow();
+            ruleExecutor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+
+        System.out.println("🛑 Automation engine stopped");
+    }
+
+    /**
+     * Get status of the automation engine
+     */
+    public String getStatus() {
+        return String.format(
+                "Automation Engine Status:\n" +
+                        "  Active rules: %d\n" +
+                        "  Scheduled tasks: %d\n" +
+                        "  Scheduler active: %s\n" +
+                        "  Rule executor active: %s",
+                rules.size(),
+                scheduledTasks.size(),
+                !scheduler.isShutdown(),
+                !ruleExecutor.isShutdown()
+        );
+    }
 
 
 }

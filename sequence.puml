@@ -1,0 +1,41 @@
+@startuml
+' Sequence Diagram for Add Security Rule and Automate Light Toggle (Assignment 5)
+
+autonumber
+actor User
+participant SmartHomeCLI as CLI
+participant ConcurrentCLICommands as CC
+participant FacadeSmartHome as F
+participant AutomationEngine as AE
+participant EventSystem as ES
+participant DeviceMonitor as DM
+participant ConcurrentSecurityCamera as CSC
+participant ConcurrentLight as CL
+
+User -> CLI: input "automate add security SecurityRule1"
+CLI -> CC: processCommand("automate add security SecurityRule1")
+CC -> AE: addRule(new SecurityRule("SecurityRule1"))
+AE -> ES: publishEvent(Event(deviceName.getType(), source"SecurityRule1", data"Rule added"))
+AE --> CC
+CC --> CLI: "✅ Added security rule: SecurityRule1"
+CLI --> User: display "✅ Added security rule: SecurityRule1"
+
+' Motion detection
+note right: DeviceMonitor runs periodically
+DM -> CSC: monitorDevice()
+CSC -> CSC: detectMotion()
+CSC -> ES: publishEvent(Event(MOTION_DETECTED, "FrontDoorCamera"))
+ES -> AE: notify listener
+AE -> F: execute SecurityRule
+F -> CL: turnOn()
+CL -> ES: publishEvent(Event(deviceName.getType(), source"LivingRoomLight", "Light ON"))
+ES --> CLI: "👁️ Motion detected by FrontDoorCamera\n✅ Turned on LivingRoomLight"
+CLI --> User: display "👁️ Motion detected by FrontDoorCamera\n✅ Turned on LivingRoomLight"
+
+' Error case: Invalid rule parameters
+User -> CLI: input "automate add temperature TempRule invalid"
+CLI -> CC: processCommand("automate add temperature TempRule invalid"))
+CC --> CLI: "❌ Error: Invalid tolerance value"
+CLI --> User: display "❌ Error: Invalid tolerance value"
+
+@enduml

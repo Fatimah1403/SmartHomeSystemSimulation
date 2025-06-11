@@ -1,5 +1,9 @@
 package com.fatty.smarthome.core;
 
+import com.fatty.smarthome.devices.SecurityCamera;
+import com.fatty.smarthome.devices.SmartDevice;
+import com.fatty.smarthome.devices.Thermostat;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -29,6 +33,7 @@ public class DeviceState implements Serializable {
         this.status = status;
         this.lastModified = LocalDateTime.now();
     }
+//
     // Getters and setters
     public Integer getTemperature() { return temperature; }
     public void setTemperature(Integer temperature) { this.temperature = temperature; }

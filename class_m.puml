@@ -1,0 +1,383 @@
+@startuml
+' Class Diagram for Smart Home System (Assignment 5)
+
+' Facade class
+class FacadeSmartHome {
+    - instance: FacadeSmartHome
+    - smartHome: SmartHome
+    - devices: List<SmartDevice>
+    - eventSystem: EventSystem
+    - commandHistory: List<String>
+    + getInstance(): FacadeSmartHome
+    + smartHomeAccess(command: String, deviceName: String, value: String): String
+    + addDevice(device: SmartDevice): void
+    + getDevices(): List<SmartDevice>
+    + getDevice(name: String): Optional<SmartDevice>
+    + addConcurrentRule(rule: Rule): void
+    + getConcurrentRules(): List<Rule>
+    + getEventSystem(): EventSystem
+    + reset(): void
+    + shutdown(): void
+}
+
+' SmartHome core class
+class SmartHome {
+    - deviceManager: DeviceManager
+    - dbService: DatabaseService
+    - securityService: SecurityService
+    + addDevice(device: SmartDevice): void
+    + getDevices(): List<SmartDevice>
+    + reportStatus(): String
+    + runAutomation(): void
+    + saveDevice(device: SmartDevice): void
+    + clearLogFile(): String
+}
+
+' Device manager
+class DeviceManager {
+    - devices: List<T extends SmartDevice & Controllable>
+    - dbService: DatabaseService
+    - securityService: SecurityService
+    + addDevice(device: T): void
+    + saveDevice(device: T): void
+    + getDevices(): List<T>
+}
+
+' CLI entry point
+class SmartHomeCLI {
+    - facade: FacadeSmartHome
+    - scanner: Scanner
+    - concurrentCommands: ConcurrentCLICommands
+    - running: boolean
+    + start(): void
+    + processCommand(input: String): void
+}
+
+' Concurrent CLI commands
+class ConcurrentCLICommands {
+    - facade: FacadeSmartHome
+    - eventSystem: EventSystem
+    - automationEngine: AutomationEngine
+    - deviceMonitor: DeviceMonitor
+    - powerMonitor: PowerMonitoringService
+    - deviceFactory: ConcurrentDeviceFactory
+    - asyncExecutor: ExecutorService
+    + processConcurrentCommand(command: String): boolean
+    + shutdown(): void
+}
+
+' Event system (handles concurrent events)
+class EventSystem {
+    - listeners: Map<EventType, Set<EventListener>>
+    - allEventListeners: Set<EventListener>
+    - dispatcher: ExecutorService
+    - running: AtomicBoolean
+    - eventCount: AtomicLong
+    - eventHistory: List<Event>
+    + subscribe(type: EventType, listener: EventListener): void
+    + subscribeToAll(listener: EventListener): void
+    + publishEvent(event: Event): void
+    + start(): void
+    + stop(): void
+    + getStatistics(): String
+}
+
+' Automation engine (manages concurrent rules)
+class AutomationEngine {
+    - facade: FacadeSmartHome
+    - eventSystem: EventSystem
+    - rules: Set<Rule>
+    - scheduler: ScheduledExecutorService
+    - running: AtomicBoolean
+    - scheduledTasks: Map<String, ScheduledFuture<?>>
+    + addRule(rule: Rule): void
+    + removeRule(name: String): void
+    + start(): void
+    + stop(): void
+    + getStatus(): String
+}
+
+' Device monitor (runs periodic checks)
+class DeviceMonitor {
+    - facade: FacadeSmartHome
+    - eventSystem: EventSystem
+    - intervalMillis: long
+    - scheduler: ScheduledExecutorService
+    - running: AtomicBoolean
+    - deviceStats: Map<String, DeviceStats>
+    + startMonitoring(): void
+    + stopMonitoring(): void
+    + isRunning(): boolean
+    + getDeviceStats(deviceName: String): String
+}
+
+' Power monitoring service (tracks power usage)
+class PowerMonitoringService {
+    - facade: FacadeSmartHome
+    - eventSystem: EventSystem
+    - scheduler: ScheduledExecutorService
+    - running: AtomicBoolean
+    - powerThreshold: AtomicInteger
+    - devicePowerUsage: Map<String, Integer>
+    + startMonitoring(): void
+    + stopMonitoring(): void
+    + setPowerThreshold(watts: int): void
+    + optimizePowerUsage(targetWatts: int): CompletableFuture<String>
+    + getPowerStatistics(): String
+}
+
+' Abstract device class
+abstract class SmartDevice {
+    - name: String
+    - isOn: boolean
+    + SmartDevice(name: String)
+    + turnOn(): void
+    + turnOff(): void
+    + isOn(): boolean
+    + getName(): String
+    + getStatus(): String
+}
+
+' Concrete device classes (old)
+class Light {
+    + Light(name: String)
+    + turnOn(): void
+    + turnOff(): void
+    + getStatus(): String
+}
+
+class Thermostat {
+    - temperature: int
+    + Thermostat(name: String)
+    + turnOn(): void
+    + turnOff(): void
+    + setTemperature(temp: int): void
+    + getTemperature(): int
+    + getStatus(): String
+}
+
+class SecurityCamera {
+    + SecurityCamera(name: String)
+    + turnOn(): void
+    + turnOff(): void
+    + getStatus(): String
+}
+
+' Concurrent device interface
+interface ConcurrentSmartDevice {
+    + isOperational(): boolean
+    + simulateMalfunction(): void
+}
+
+' Concrete device classes (concurrent)
+class ConcurrentLight {
+    - eventSystem: EventSystem
+    + ConcurrentLight(name: String, eventSystem: EventSystem)
+    + turnOn(): void
+    + turnOff(): void
+    + getStatus(): String
+}
+
+class ConcurrentThermostat {
+    - temperature: int
+    - eventSystem: EventSystem
+    + ConcurrentThermostat(name: String, eventSystem: EventSystem)
+    + setTemperature(temp: int): void
+    + getTemperature(): int
+    + simulateTemperatureDrift(): void
+    + getStatus(): String
+}
+
+class ConcurrentSecurityCamera {
+    - eventSystem: EventSystem
+    + ConcurrentSecurityCamera(name: String, eventSystem: EventSystem)
+    + detectMotion(): void
+    + getStatus(): String
+}
+
+' Interface for controllable devices
+interface Controllable {
+    + turnOn(): void
+    + turnOff(): void
+    + getStatus(): String
+    + getName(): String
+}
+
+' Automation rule interface (old)
+interface AutomationRule {
+    + visit(device: SmartDevice): void
+}
+
+' Light automation rule
+class LightAutomationRule {
+    + visit(device: SmartDevice): void
+}
+
+' Automation rule interface (new)
+interface Rule {
+    + getName(): String
+    + execute(facade: FacadeSmartHome): void
+    + getStatus(): String
+}
+
+' Concrete rule classes (new)
+class SecurityRule {
+    - name: String
+    + SecurityRule(name: String)
+    + execute(facade: FacadeSmartHome): void
+}
+
+class TemperatureRule {
+    - name: String
+    - targetTemperature: int
+    - tolerance: int
+    + TemperatureRule(name: String, temp: int, tolerance: int)
+    + execute(facade: FacadeSmartHome): void
+}
+
+class TimeBasedRule {
+    - name: String
+    - triggerTime: LocalTime
+    - action: Runnable
+    + TimeBasedRule(name: String, time: LocalTime, action: Runnable)
+    + execute(facade: FacadeSmartHome): void
+}
+
+' Event class
+class Event {
+    - type: EventType
+    - source: String
+    - data: Map<String, String>
+    - timestamp: LocalDateTime
+    + Event(type: EventType, source: String, data: Map, timestamp: LocalDateTime)
+}
+
+' Event listener interface
+interface EventListener {
+    + onEvent(event: Event): void
+    + getName(): String
+}
+
+' Service classes
+class DatabaseService {
+    + save(device: SmartDevice): void
+    + clearLogFile(): void
+    + readLogFile(): List<String>
+}
+
+class SecurityService {
+    + checkSecurity<T extends SmartDevice & Controllable>(devices: List<T>): String
+}
+
+class PersistenceService {
+    + saveDeviceStatesBinary(devices: List<SmartDevice>): void
+    + saveDeviceStatesJson(devices: List<SmartDevice>): void
+    + loadDeviceStatesBinary(): List<DeviceState>
+    + loadDeviceStatesJson(): List<DeviceState>
+}
+
+' GUI entry point
+class SmartHomeGUI {
+    + startGUI(): void
+}
+
+' Main entry point
+class Main {
+    + main(args: String[]): void
+}
+
+' Test classes
+class ThermostatTest {
+    + testSetTemperature(): void
+    + testInvalidTemperature(): void
+    + testTurnOn(): void
+    + testInvalidName(): void
+}
+
+class FacadeSmartHomeTest {
+    + testAddDevice(): void
+    + testSetTemperature(): void
+}
+
+class EventSystemTests {
+    + testPublishEvent(): void
+}
+
+class AutomationEngineTest {
+    + testAddRule(): void
+}
+
+class DeviceMonitorTest {
+    + testMonitorDevices(): void
+}
+
+class PowerMonitoringServiceTest {
+    + testOptimizePower(): void
+}
+
+' User-defined exception
+class SmartHomeException {
+    - message: String
+    + SmartHomeException(message: String)
+    + SmartHomeException(message: String, cause: Throwable)
+}
+
+' Relationships
+FacadeSmartHome "1" --> "1" SmartHome
+FacadeSmartHome "1" --> "many" SmartDevice
+FacadeSmartHome "1" --> "1" EventSystem
+FacadeSmartHome "1" --> "many" Rule
+SmartHome "1" --> "1" DeviceManager
+SmartHome "1" --> "1" DatabaseService
+SmartHome "1" --> "1" SecurityService
+DeviceManager "1" --> "many" SmartDevice
+DeviceManager "1" --> "1" DatabaseService
+DeviceManager "1" --> "1" SecurityService
+SmartHomeCLI --> FacadeSmartHome
+SmartHomeCLI "1" --> "1" ConcurrentCLICommands
+ConcurrentCLICommands --> FacadeSmartHome
+ConcurrentCLICommands "1" --> "1" EventSystem
+ConcurrentCLICommands "1" --> "1" AutomationEngine
+ConcurrentCLICommands "1" --> "1" DeviceMonitor
+ConcurrentCLICommands "1" --> "1" PowerMonitoringService
+EventSystem "1" --> "many" EventListener
+AutomationEngine --> FacadeSmartHome
+AutomationEngine "1" --> "many" Rule
+DeviceMonitor --> FacadeSmartHome
+DeviceMonitor --> EventSystem
+PowerMonitoringService --> FacadeSmartHome
+PowerMonitoringService --> EventSystem
+SmartDevice <|-- Light
+SmartDevice <|-- Thermostat
+SmartDevice <|-- SecurityCamera
+SmartDevice <|-- ConcurrentSmartDevice
+ConcurrentSmartDevice <|.. ConcurrentLight
+ConcurrentSmartDevice <|.. ConcurrentThermostat
+ConcurrentSmartDevice <|.. ConcurrentSecurityCamera
+Controllable <|.. SmartDevice
+AutomationRule <|.. LightAutomationRule
+SmartHome --> AutomationRule
+Rule <|.. SecurityRule
+Rule <|.. TemperatureRule
+Rule <|.. TimeBasedRule
+EventSystem --> Event
+SmartHomeGUI --> FacadeSmartHome
+PersistenceService --> SmartDevice
+SmartHomeException <.. FacadeSmartHome
+SmartHomeException <.. SmartHome
+SmartHomeException <.. DeviceManager
+SmartHomeException <.. DatabaseService
+SmartHomeException <.. Thermostat
+SmartHomeException <.. SmartHomeCLI
+SmartHomeException <.. ConcurrentCLICommands
+SmartHomeException <.. ConcurrentSmartDevice
+Main --> FacadeSmartHome
+ThermostatTest --> Thermostat
+FacadeSmartHomeTest --> FacadeSmartHome
+EventSystemTests --> EventSystem
+AutomationEngineTest --> AutomationEngine
+DeviceMonitorTest --> DeviceMonitor
+PowerMonitoringServiceTest --> PowerMonitoringService
+
+@enduml
+

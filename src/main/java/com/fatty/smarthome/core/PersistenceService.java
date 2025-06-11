@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Service for persisting (saving) device stattes using both binary and JSON formats.
+ * Service for persisting (saving) device states using both binary and JSON formats.
  * This allows the application to save its state and restore it later
  */
 public class PersistenceService {
@@ -48,7 +48,7 @@ public class PersistenceService {
     /**
      *
      * Creates the data files if they don't exist.
-     * This ensures we don't get FileNotFoundException whren trying to read.
+     * This ensures we don't get FileNotFoundException when trying to read.
      */
     private void createFilesIfNotExist() {
         try {
@@ -72,7 +72,7 @@ public class PersistenceService {
             }
 
         } catch (IOException e) {
-            System.err.println("Warning: Could not create data files: " + e.getMessage());;
+            System.err.println("Warning: Could not create data files: " + e.getMessage());
         }
     }
     /**
@@ -100,7 +100,7 @@ public class PersistenceService {
      * @throws SmartHomeException if load fails
      */
     @SuppressWarnings("unchecked") // Suppress warnings for casting Object to List<DeviceState>
-    public List<com.fatty.smarthome.core.DeviceState> loadDeviceStatesBinary() throws SmartHomeException, FileNotFoundException {
+    public List<com.fatty.smarthome.core.DeviceState> loadDeviceStatesBinary() throws SmartHomeException{
         File file = new File(BINARY_FILE);
 
         // Return empty list if file doesn't exist or is empty
@@ -174,9 +174,12 @@ public class PersistenceService {
         }
         return state;
     }
-    public SmartDevice reconstructDevice(com.fatty.smarthome.core.DeviceState state) throws SmartHomeException {
+    public SmartDevice reconstructDevice(DeviceState state) throws SmartHomeException {
         // create the appropriate device type based on the saved type name
-        SmartDevice device = switch (state.getDeviceType().toLowerCase()) {
+
+        String deviceType = state.getDeviceType().toLowerCase();
+
+        SmartDevice device = switch (deviceType) {
             case "light" -> new Light(state.getDeviceName());
             case "thermostat" -> {
                 Thermostat t = new Thermostat(state.getDeviceName());
@@ -192,6 +195,8 @@ public class PersistenceService {
         // Restore the on/off state
         if (state.isOn()) {
             device.turnOn();
+        } else {
+            device.turnOff();
         }
         return device;
 

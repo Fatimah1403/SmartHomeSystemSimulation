@@ -50,7 +50,7 @@ public class DeviceManager<T extends SmartDevice & Controllable> {
         report.append("Security status: ").append(securityService.checkSecurity(devices));
         return report.toString();
     }
-    public void runAutomation(ConcurrentRule rule) throws SmartHomeException {
+    public void runAutomation(AutomationRule rule) throws SmartHomeException {
         for (T device : devices) {
             rule.visit(device);
         }

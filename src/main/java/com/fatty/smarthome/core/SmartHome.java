@@ -32,7 +32,7 @@ public class SmartHome {
         return deviceManager.reportStatus();
     }
 
-    public void runAutomation(ConcurrentRule rule) throws SmartHomeException {
+    public void runAutomation(AutomationRule rule) throws SmartHomeException {
         deviceManager.runAutomation(rule);
     }
 

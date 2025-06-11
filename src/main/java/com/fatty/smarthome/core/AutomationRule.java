@@ -7,6 +7,6 @@ import com.fatty.smarthome.devices.SmartDevice;
  * This interface is designed to define a visiting functionality for devices,
  * allowing specific automation logic to be executed based on the type or state of the device.
  */
-public interface ConcurrentRule {
+public interface AutomationRule {
     void visit(SmartDevice device);
 }

@@ -1,11 +1,13 @@
 package com.fatty.smarthome.gui;
 
+import com.fatty.smarthome.cli.ConcurrentCLICommands;
 import com.fatty.smarthome.core.*;
 import com.fatty.smarthome.core.DeviceAnalytics;
 import com.fatty.smarthome.core.DeviceState;
 import com.fatty.smarthome.core.DeviceView;
 import com.fatty.smarthome.core.FacadeSmartHome;
 import com.fatty.smarthome.core.PersistenceService;
+import com.fatty.smarthome.devices.SecurityCamera;
 import com.fatty.smarthome.devices.SmartDevice;import com.fatty.smarthome.devices.SmartDevice;
 import com.fatty.smarthome.util.SmartHomeException;
 import javafx.animation.KeyFrame;
@@ -14,6 +16,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -51,6 +54,10 @@ public class SmartHomeGUI extends Application {
     private TextField searchField;
     private ComboBox<String> filterCombo;
     private ProgressBar systemLoadBar;
+    private ConcurrentCLICommands concurrentCommands;
+    private CheckBox monitoringCheckBox;
+    private CheckBox automationCheckBox;
+    private CheckBox powerMonitorCheckBox;
 
     // Scheduler for auto-save and updates
     private ScheduledExecutorService scheduler;
@@ -65,6 +72,11 @@ public class SmartHomeGUI extends Application {
         persistenceService = new PersistenceService();
         deviceData = FXCollections.observableArrayList();
         scheduler = Executors.newScheduledThreadPool(2);
+        try {
+            concurrentCommands = new ConcurrentCLICommands(facade);
+        } catch (SmartHomeException e) {
+            showError("Concurrent Features Error", "Failed to initialize concurrent features: " + e.getMessage());
+        }
 
 
         // Setup main window
@@ -91,6 +103,12 @@ public class SmartHomeGUI extends Application {
 
         // Cleanup on close
         primaryStage.setOnCloseRequest(event -> {
+
+            // Stop concurrent services
+            if (concurrentCommands != null) {
+                concurrentCommands.shutdown();
+            }
+
             // Save devices before closing
             saveDevices();
 
@@ -194,6 +212,49 @@ public class SmartHomeGUI extends Application {
         autoSaveItem.setOnAction(e -> autoSaveEnabled = autoSaveItem.isSelected());
         viewMenu.getItems().addAll(refreshItem, clearLogItem, new SeparatorMenuItem(), autoSaveItem);
 
+        // Concurrent menu
+        Menu concurrentMenu = new Menu("Concurrent");
+        CheckMenuItem monitorItem = new CheckMenuItem("Device Monitoring");
+        monitorItem.setOnAction(e -> {
+            if (monitorItem.isSelected()) {
+                concurrentCommands.processConcurrentCommand("monitor start");
+            } else {
+                concurrentCommands.processConcurrentCommand("monitor stop");
+            }
+        });
+
+        CheckMenuItem automationItem = new CheckMenuItem("Automation Engine");
+        automationItem.setOnAction(e -> {
+            if (automationItem.isSelected()) {
+                concurrentCommands.processConcurrentCommand("automate start");
+            } else {
+                concurrentCommands.processConcurrentCommand("automate stop");
+            }
+        });
+
+        CheckMenuItem powerItem = new CheckMenuItem("Power Monitoring");
+        powerItem.setOnAction(e -> {
+            if (powerItem.isSelected()) {
+                concurrentCommands.processConcurrentCommand("power monitor start");
+            } else {
+                concurrentCommands.processConcurrentCommand("power monitor stop");
+            }
+        });
+        MenuItem simulateMotionItem = new MenuItem("Simulate Motion");
+        simulateMotionItem.setOnAction(e -> showMotionSimulationDialog());
+
+        MenuItem stressTestItem = new MenuItem("Run Stress Test");
+        stressTestItem.setOnAction(e -> runStressTest());
+
+        MenuItem powerOptimizeItem = new MenuItem("Optimize Power Usage");
+        powerOptimizeItem.setOnAction(e -> showPowerOptimizationDialog());
+
+        concurrentMenu.getItems().addAll(
+                monitorItem, automationItem, powerItem,
+                new SeparatorMenuItem(),
+                simulateMotionItem, stressTestItem, powerOptimizeItem
+        );
+
         // Help menu
         Menu helpMenu = new Menu("Help");
         MenuItem userGuideItem = new MenuItem("User Guide");
@@ -202,10 +263,86 @@ public class SmartHomeGUI extends Application {
         aboutItem.setOnAction(e -> showAbout());
         helpMenu.getItems().addAll(userGuideItem, aboutItem);
 
-        menuBar.getMenus().addAll(fileMenu, deviceMenu,  viewMenu, helpMenu);
-//        menuBar.getMenus().addAll(fileMenu, deviceMenu, automationMenu, viewMenu, helpMenu);
+        menuBar.getMenus().addAll(fileMenu, deviceMenu, concurrentMenu, viewMenu, helpMenu);
 
         return menuBar;
+
+    }
+
+    private void showMotionSimulationDialog() {
+        List<SmartDevice> cameras = facade.getDevices().stream()
+                .filter(d -> d instanceof SecurityCamera)
+                .collect(Collectors.toList());
+
+        if (cameras.isEmpty()) {
+            showWarning("No Cameras", "No security cameras found in the system.");
+            return;
+        }
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>();
+        dialog.setTitle("Simulate Motion");
+        dialog.setHeaderText("Select camera for motion simulation");
+        dialog.setContentText("Camera:");
+
+        dialog.getItems().add("All Cameras");
+        cameras.forEach(cam -> dialog.getItems().add(cam.getName()));
+        dialog.setSelectedItem("All Cameras");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(selection -> {
+            if ("All Cameras".equals(selection)) {
+                concurrentCommands.processConcurrentCommand("simulate motion");
+            } else {
+                concurrentCommands.processConcurrentCommand("simulate motion " + selection);
+            }
+            log("Motion simulation triggered for: " + selection);
+        });
+    }
+
+    private void runStressTest() {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("medium", "low", "medium", "high");
+        dialog.setTitle("Stress Test");
+        dialog.setHeaderText("Run concurrent operations stress test");
+        dialog.setContentText("Select stress level:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(level -> {
+            // Run in background
+            Task<Void> stressTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    updateMessage("Running stress test...");
+                    concurrentCommands.processConcurrentCommand("concurrent test");
+                    return null;
+                }
+            };
+
+            stressTask.setOnSucceeded(e -> {
+                log("Stress test completed");
+                updateStatus("Stress test finished");
+                updateDeviceTable();
+            });
+
+            stressTask.setOnFailed(e -> {
+                showError("Stress Test Failed", stressTask.getException().getMessage());
+            });
+
+            new Thread(stressTask).start();
+            updateStatus("Running stress test...");
+        });
+    }
+
+    private void showPowerOptimizationDialog() {
+        TextInputDialog dialog = new TextInputDialog("100");
+        dialog.setTitle("Power Optimization");
+        dialog.setHeaderText("Optimize power usage");
+        dialog.setContentText("Target power (watts):");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(watts -> {
+            concurrentCommands.processConcurrentCommand("power optimize " + watts);
+            log("Power optimization started for target: " + watts + "W");
+        });
     }
 
     /**
@@ -396,6 +533,7 @@ public class SmartHomeGUI extends Application {
         VBox addContent = new VBox(10);
         addContent.setPadding(new Insets(10));
 
+
         TextField nameField = new TextField();
         nameField.setPromptText("Device name");
 
@@ -415,6 +553,7 @@ public class SmartHomeGUI extends Application {
 
         addContent.getChildren().addAll(nameField, typeCombo, quickAddBtn);
         addPane.setContent(addContent);
+
 
         // Bulk operations
         TitledPane bulkPane = new TitledPane();
@@ -453,10 +592,77 @@ public class SmartHomeGUI extends Application {
         infoContent.getChildren().addAll(statsLabel, new Label("System Load:"), systemLoadBar);
         infoPane.setContent(infoContent);
 
-        panel.getChildren().addAll(titleLabel, addPane, bulkPane, infoPane);
+        //Concurrency controls
+        TitledPane concurrentPane = new TitledPane();
+        concurrentPane.setText("Concurrent Features");
+        VBox concurrentContent = new VBox(10);
+        concurrentContent.setPadding(new Insets(10));
+
+        monitoringCheckBox = new CheckBox("Device Monitoring");
+        monitoringCheckBox.setOnAction(e -> {
+            if (monitoringCheckBox.isSelected()) {
+                concurrentCommands.processConcurrentCommand("monitor start");
+                log("Device monitoring started");
+            } else {
+                concurrentCommands.processConcurrentCommand("monitor stop");
+                log("Device monitoring stopped");
+            }
+        });
+
+        automationCheckBox = new CheckBox("Automation Engine");
+        automationCheckBox.setOnAction(e -> {
+            if (automationCheckBox.isSelected()) {
+                concurrentCommands.processConcurrentCommand("automate start");
+                log("Automation engine started");
+            } else {
+                concurrentCommands.processConcurrentCommand("automate stop");
+                log("Automation engine stopped");
+            }
+        });
+
+        powerMonitorCheckBox = new CheckBox("Power Monitoring");
+        powerMonitorCheckBox.setOnAction(e -> {
+            if (powerMonitorCheckBox.isSelected()) {
+                concurrentCommands.processConcurrentCommand("power monitor start");
+                log("Power monitoring started");
+            } else {
+                concurrentCommands.processConcurrentCommand("power monitor stop");
+                log("Power monitoring stopped");
+            }
+        });
+
+        Button eventStatsBtn = new Button("Event Statistics");
+        eventStatsBtn.setPrefWidth(Double.MAX_VALUE);
+        eventStatsBtn.setOnAction(e -> showEventStatistics());
+
+        concurrentContent.getChildren().addAll(
+                monitoringCheckBox,
+                automationCheckBox,
+                powerMonitorCheckBox,
+                new Separator(),
+                eventStatsBtn
+        );
+
+        concurrentPane.setContent(concurrentContent);
+
+        panel.getChildren().addAll(titleLabel, addPane, bulkPane, concurrentPane, infoPane);
 
         return panel;
     }
+    private void showEventStatistics() {
+        // Get event statistics
+        concurrentCommands.processConcurrentCommand("events stats");
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Event Statistics");
+        alert.setHeaderText("Concurrent Event System Statistics");
+
+        // You might want to capture the output differently
+        alert.setContentText("Check the log area for detailed event statistics.");
+        alert.showAndWait();
+    }
+
+
 
     /**
      * Creates the analytics panel on the right.
