@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +32,7 @@ public class SmartHomeTest {
 
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() throws IOException, SQLException {
         smartHome = new SmartHome();
         // Value-added to ensure clean log file for test isolation, supporting Week 3 file I/O
         Files.deleteIfExists(path);
@@ -105,17 +106,17 @@ public class SmartHomeTest {
         smartHome.addDevice((new Light("LivingRoomLight")));
         smartHome.addDevice(new SecurityCamera("KitchenCamera"));
         smartHome.clearLogFile();
-        List<DatabaseService.LogEntry> logs = smartHome.readLog();
+        List<DatabaseService.EventLog> logs = smartHome.readLog();
         assertEquals(0, logs.size());
         assertTrue(logs.isEmpty());
     }
     @Test
     void testReadLog() throws SmartHomeException {
         smartHome.addDevice(new Light("LivingRoomLight"));
-        List<DatabaseService.LogEntry> logs = smartHome.readLog();
+        List<DatabaseService.EventLog> logs = smartHome.readLog();
         assertFalse(logs.isEmpty());
         assertEquals("LivingRoomLight", logs.getFirst().getDeviceName());
-        assertEquals("LivingRoomLight is OFF", logs.getFirst().getStatus());
+        assertEquals("LivingRoomLight is OFF", logs.getFirst().getAction());
     }
     @Test
     void testInvalidLogEntry() throws IOException {
@@ -130,16 +131,16 @@ public class SmartHomeTest {
         thermostat.setTemperature(25);
         smartHome.addDevice(thermostat);
         smartHome.saveDevice(thermostat);
-        List<DatabaseService.LogEntry> logs = smartHome.readLog();
+        List<DatabaseService.EventLog> logs = smartHome.readLog();
         assertTrue(logs.stream().anyMatch(log ->
                 log.getDeviceName().equals("MainThermostat") &&
-                log.getStatus().contains("Temperature: 25°C")));
+                log.getAction().contains("Temperature: 25°C")));
 
     }
     @Test
-    void testGenericTypeSafety() throws SmartHomeException {
+    void testGenericTypeSafety() throws SmartHomeException, SQLException {
         DeviceManager<SmartDevice> deviceManager = new DeviceManager<>(
-                new DatabaseService(), new SecurityService());
+                DatabaseService.getInstance(), new SecurityService());
         Light light = new Light("LivingRoomLight");
         SecurityCamera camera = new SecurityCamera("KitchenCamera");
         Thermostat thermostat = new Thermostat("MainThermostat");

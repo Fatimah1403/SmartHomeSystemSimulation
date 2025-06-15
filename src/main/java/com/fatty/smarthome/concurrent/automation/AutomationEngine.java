@@ -20,11 +20,7 @@ public class AutomationEngine {
     private volatile boolean running = false;
 
 
-    public interface ConcurrentRule {
-        String getName();
-        boolean shouldExecute();
-        void execute(List<SmartDevice> devices);
-    }
+
 
     public AutomationEngine(FacadeSmartHome facade) {
         this.facade = facade;

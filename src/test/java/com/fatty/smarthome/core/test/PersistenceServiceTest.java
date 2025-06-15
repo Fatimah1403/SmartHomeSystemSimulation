@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class PersistenceServiceTest {
     private List<SmartDevice> testDevices;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws SQLException {
         // Create a new service instance for each test
         persistenceService = new PersistenceService();
 
@@ -114,7 +115,7 @@ public class PersistenceServiceTest {
         assertEquals(25, thermostat.getTemperature());
     }
     @Test
-    void testEmptyFileHandling() throws SmartHomeException, FileNotFoundException {
+    void testEmptyFileHandling() throws SmartHomeException, FileNotFoundException, SQLException {
         // Delete existing files to test empty file handling
         new File("devices_states.json").delete();
         new File("devices_states.dat").delete();

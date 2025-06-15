@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.List;
 
 //import static junit.framework.Assert.assertEquals;
@@ -25,7 +26,7 @@ public class FacadeSmartHomeTest {
     private static final Path path = Paths.get("device_log.txt");
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() throws IOException, SQLException {
         facade = FacadeSmartHome.getTheInstance();
         facade.reset();
         Files.write(path, new byte[0]);

@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "deviceName": "LivingLight",
+    "deviceType": "Light",
+    "isOn": false,
+    "status": "LivingLight is OFF",
+    "lastModified": "2025-06-15T16:48:15.516463",
+    "isRecording": false
+  },
+  {
+    "deviceName": "MainThermostat",
+    "deviceType": "Thermostat",
+    "isOn": false,
+    "status": "MainThermostat is OFF, Temperature: 21°C",
+    "lastModified": "2025-06-15T16:48:15.516473",
+    "temperature": 21,
+    "isRecording": false
+  },
+  {
+    "deviceName": "BedroomLight",
+    "deviceType": "Light",
+    "isOn": false,
+    "status": "BedroomLight is OFF",
+    "lastModified": "2025-06-15T16:48:15.516477",
+    "isRecording": false
+  },
+  {
+    "deviceName": "BathroomLight",
+    "deviceType": "Light",
+    "isOn": false,
+    "status": "BathroomLight is OFF",
+    "lastModified": "2025-06-15T16:48:15.516480",
+    "isRecording": false
+  },
+  {
+    "deviceName": "CoffeeMaker",
+    "deviceType": "Light",
+    "isOn": false,
+    "status": "CoffeeMaker is OFF",
+    "lastModified": "2025-06-15T16:48:15.516482",
+    "isRecording": false
+  },
+  {
+    "deviceName": "BedroomThermostat",
+    "deviceType": "Thermostat",
+    "isOn": false,
+    "status": "BedroomThermostat is OFF, Temperature: 21°C",
+    "lastModified": "2025-06-15T16:48:15.516486",
+    "temperature": 21,
+    "isRecording": false
+  }
+]

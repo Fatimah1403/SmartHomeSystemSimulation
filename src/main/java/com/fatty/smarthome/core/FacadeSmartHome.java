@@ -6,6 +6,7 @@ import com.fatty.smarthome.devices.SmartDevice;
 import com.fatty.smarthome.devices.Thermostat;
 import com.fatty.smarthome.util.SmartHomeException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,16 +17,18 @@ import java.util.stream.Collectors;
 
 public class FacadeSmartHome {
     private static volatile FacadeSmartHome instance;
-    private final SmartHome smartHome;
+    private SmartHome smartHome;
     private final List<String> commandHistory;
     // Change the devices list to thread-safe implementation
-    private final List<SmartDevice> devices = new CopyOnWriteArrayList<>();
+    private List<SmartDevice> devices = new CopyOnWriteArrayList<>();
 
     // Add device lookup cache for performance
-    private final Map<String, SmartDevice> deviceCache = new ConcurrentHashMap<>();
+    private Map<String, SmartDevice> deviceCache = new ConcurrentHashMap<>();
 
-    private FacadeSmartHome() {
-        smartHome = new SmartHome();
+    private FacadeSmartHome() throws SQLException {
+        this.devices = new CopyOnWriteArrayList<>();
+        this.deviceCache = new ConcurrentHashMap<>();
+        this.smartHome = new SmartHome();
         commandHistory = new ArrayList<>();
     }
 
@@ -33,7 +36,8 @@ public class FacadeSmartHome {
      * Returns the singleton instance of FacadeSmartHome.
      * @return The singleton instance
      */
-    public static FacadeSmartHome getTheInstance() {
+    public static FacadeSmartHome getTheInstance() throws SQLException {
+
         if (instance == null) {
             synchronized (FacadeSmartHome.class) {
                 if (instance == null) {
@@ -62,6 +66,15 @@ public class FacadeSmartHome {
         // Also add to the internal SmartHome instance
         smartHome.addDevice(device);
         System.out.println("✅ Device added: " + device.getName());
+
+        // AUTO-SAVE after adding device
+        try {
+            PersistenceService persistenceService = new PersistenceService();
+            persistenceService.saveDeviceStatesJson(devices);
+            persistenceService.saveDeviceStatesBinary(devices);
+        } catch (Exception e) {
+            System.err.println("Warning: Could not auto-save devices: " + e.getMessage());
+        }
     }
 
     /**
@@ -77,11 +90,15 @@ public class FacadeSmartHome {
         return false;
     }
 
+
+
     /**
      * Get device by name (thread-safe)
      */
     public Optional<SmartDevice> getDevice(String name) {
-        return Optional.ofNullable(deviceCache.get(name));
+        return devices.stream()
+                .filter(d -> d.getName().equalsIgnoreCase(name))
+                .findFirst();
     }
 
     /**
@@ -152,7 +169,9 @@ public class FacadeSmartHome {
                     case "camera" -> new SecurityCamera(deviceName);
                     default -> throw new SmartHomeException("Invalid device type: " + value);
                 };
-                smartHome.addDevice(device);
+
+                this.addDevice(device);
+
                 yield "Added " + deviceName;
             }
             case "turnon" -> controlDevice(deviceName, true);
@@ -187,13 +206,18 @@ public class FacadeSmartHome {
             }
             case "history" -> commandHistory.isEmpty() ? "No commands executed" : String.join("\n", commandHistory);
             case "readlog" -> {
-                List<com.fatty.smarthome.core.DatabaseService.LogEntry> logs = smartHome.readLog();
+                List<DatabaseService.EventLog> logs = smartHome.readLog();
                 if (logs.isEmpty()) {
                     yield "Log file is empty";
                 }
                 StringBuilder logOutput = new StringBuilder();
-                for (com.fatty.smarthome.core.DatabaseService.LogEntry entry : logs) {
-                    logOutput.append(String.format("%s: %s - %s\n", entry.getTimestamp(), entry.getDeviceName(), entry.getStatus()));
+                for (DatabaseService.EventLog entry : logs) {
+                    logOutput.append(String.format("%s: %s - %s\n",
+                            entry.getTimestamp(),
+                            entry.getDeviceName(),
+                            entry.getAction(),
+                            entry.getOldValue() != null ? entry.getOldValue() : "N/A",
+                            entry.getNewValue() != null ? entry.getNewValue() : "N/A"));
                 }
                 yield logOutput.toString();
             }
@@ -251,6 +275,9 @@ public class FacadeSmartHome {
     public synchronized void reset() {
         devices.clear();
         deviceCache.clear();
-        System.out.println("✅ System reset complete");
+        // Reset the internal SmartHome instance
+        if (smartHome != null) {
+            smartHome.getDevices().clear();
+        }
     }
 }

@@ -2,6 +2,8 @@ package com.fatty.smarthome.core;
 
 import com.fatty.smarthome.devices.SmartDevice;
 import com.fatty.smarthome.util.SmartHomeException;
+
+import java.sql.SQLException;
 import java.util.List;
 
 // Changed DeviceManager<Controllable> to
@@ -10,8 +12,8 @@ import java.util.List;
 public class SmartHome {
     private final com.fatty.smarthome.core.DeviceManager<SmartDevice> deviceManager;
 
-    public SmartHome() {
-        com.fatty.smarthome.core.DatabaseService dbService = new DatabaseService();
+    public SmartHome() throws SQLException {
+        com.fatty.smarthome.core.DatabaseService dbService = DatabaseService.getInstance();
         SecurityService securityService = new SecurityService();
         this.deviceManager = new DeviceManager<>(dbService, securityService);
     }
@@ -40,7 +42,7 @@ public class SmartHome {
         deviceManager.clearLogFile();
     }
 
-    public List<DatabaseService.LogEntry> readLog() throws SmartHomeException {
+    public List<DatabaseService.EventLog> readLog() throws SmartHomeException {
         return deviceManager.readLog();
     }
 

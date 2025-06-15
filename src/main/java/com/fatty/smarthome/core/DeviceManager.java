@@ -18,6 +18,23 @@ public class DeviceManager<T extends SmartDevice & Controllable> {
         this.devices = new ArrayList<>();
         this.dbService = dbService;
         this.securityService = securityService;
+
+        // Load existing devices from database on initialization
+        try {
+            loadDevicesFromDatabase();
+        } catch (SmartHomeException e) {
+            System.err.println("Failed to load devices from database: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void loadDevicesFromDatabase() throws SmartHomeException {
+        List<SmartDevice> loadedDevices = dbService.loadAllDevices();
+        for (SmartDevice device : loadedDevices) {
+            if (device instanceof Controllable) {
+                devices.add((T) device);
+            }
+        }
     }
 
     public void addDevice(T device) throws SmartHomeException {
@@ -30,11 +47,16 @@ public class DeviceManager<T extends SmartDevice & Controllable> {
             }
         }
         devices.add(device);
-        dbService.save(device);
+        dbService.saveDevice(device);
         System.out.println("Device added: " + device.getName());
     }
     public void saveDevice(T device) throws SmartHomeException {
-        dbService.save(device);
+        dbService.saveDevice(device);
+    }
+
+    public void save() throws SmartHomeException {
+        List<SmartDevice> deviceList = new ArrayList<>(devices);
+        dbService.saveAllDevices(deviceList);
     }
     public List<T> getDevices() {
         return new ArrayList<>(devices); // Return a copy of the devices list>
@@ -55,15 +77,15 @@ public class DeviceManager<T extends SmartDevice & Controllable> {
             rule.visit(device);
         }
         for (T device : devices) {
-            dbService.save(device);
+            dbService.saveDevice(device);
         }
     }
     public void clearLogFile() throws SmartHomeException {
-        dbService.clearLogFile();
+        dbService.clearEventLogs();
     }
 
-    public List<DatabaseService.LogEntry> readLog() throws SmartHomeException {
-        return dbService.readLog();
+    public List<DatabaseService.EventLog> readLog() throws SmartHomeException {
+        return dbService.readEventLogs();
     }
 
     public void reset() {

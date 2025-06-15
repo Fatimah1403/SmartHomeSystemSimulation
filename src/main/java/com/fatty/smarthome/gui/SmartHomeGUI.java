@@ -28,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -66,10 +67,15 @@ public class SmartHomeGUI extends Application {
     private boolean autoSaveEnabled = true;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws SQLException {
         // Initialize components
         facade = FacadeSmartHome.getTheInstance();
-        persistenceService = new PersistenceService();
+        try {
+            persistenceService = new PersistenceService();
+        } catch (SQLException e) {
+
+            showError("Database Warning", "Database initialization failed. Using file-only persistence: " + e.getMessage());
+        }
         deviceData = FXCollections.observableArrayList();
         scheduler = Executors.newScheduledThreadPool(2);
         try {

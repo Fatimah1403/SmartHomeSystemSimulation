@@ -13,6 +13,10 @@ import java.util.concurrent.atomic.DoubleAdder;
  * and alerts when thresholds are exceeded.
  */
 public class PowerMonitoringService {
+    private volatile long lastAlertTime = 0;
+    private static final long ALERT_COOLDOWN_MS = 30000; // 30 seconds between alerts
+    private volatile boolean alertActive = false;
+
     private final FacadeSmartHome facade;
     private final EventSystem eventSystem;
     private final ScheduledExecutorService scheduler;
@@ -100,6 +104,9 @@ public class PowerMonitoringService {
                 System.out.println("⚠️  POWER ALERT: Current usage " +
                         String.format("%.1fW", totalPower) +
                         " exceeds threshold " + powerThreshold.get() + "W!");
+                long currentTime = 0;
+                lastAlertTime = currentTime;
+                alertActive = true;
 
                 // Emit power threshold event
                 if (eventSystem != null) {
@@ -114,6 +121,11 @@ public class PowerMonitoringService {
                             data
                     ));
                 }
+            } else if (alertActive && totalPower <= powerThreshold.get()) {
+                // Power back to normal
+                System.out.println("✅ Power usage back to normal: " +
+                        String.format("%.1fW", totalPower));
+                alertActive = false;
             }
 
             // Update total consumption
@@ -364,11 +376,10 @@ public class PowerMonitoringService {
         scheduler.shutdown();
 
         try {
-            if (!scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
-                scheduler.shutdownNow();
+            if (!scheduler.awaitTermination(1, TimeUnit.SECONDS)) {
+                System.err.println("Power monitoring service did not terminate cleanly");
             }
         } catch (InterruptedException e) {
-            scheduler.shutdownNow();
             Thread.currentThread().interrupt();
         }
 

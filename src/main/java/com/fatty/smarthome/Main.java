@@ -2,11 +2,13 @@ package com.fatty.smarthome;
 
 import com.fatty.smarthome.cli.SmartHomeCLI;
 import com.fatty.smarthome.gui.SmartHomeGUI;
+import com.fatty.smarthome.util.SQLiteConnector;
 import com.fatty.smarthome.util.SmartHomeException;
 import javafx.application.Application;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
 import java.util.Properties;
 
 /**
@@ -155,4 +157,6 @@ public class Main {
     public static String colorize(String text) {
         return colorEnabled ? text : text.replaceAll("\u001B\\[[;\\d]*m", "");
     }
+
+
 }

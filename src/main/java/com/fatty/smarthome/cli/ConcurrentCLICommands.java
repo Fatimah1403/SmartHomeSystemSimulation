@@ -14,6 +14,7 @@ import com.fatty.smarthome.core.FacadeSmartHome;
 import com.fatty.smarthome.util.SmartHomeException;
 import com.fatty.smarthome.concurrent.automation.TemperatureRule;
 import com.fatty.smarthome.concurrent.automation.SecurityRule;
+import com.fatty.smarthome.concurrent.automation.ConcurrentRule;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -324,10 +325,10 @@ public class ConcurrentCLICommands {
 
     private void setupDefaultRules() {
         // Temperature comfort rule
-        automationEngine.addRule((AutomationEngine.ConcurrentRule) new TemperatureRule("Comfort Maintenance", 22, 2));
+        automationEngine.addRule(new TemperatureRule("Comfort Maintenance", 22, 2));
 
         // Security rule
-        automationEngine.addRule((AutomationEngine.ConcurrentRule) new SecurityRule("Security Response"));
+        automationEngine.addRule(new SecurityRule("Security Response"));
     }
 
     private void addAutomationRule(String[] params) {
