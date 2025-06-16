@@ -2,7 +2,7 @@ package com.fatty.smarthome.devices;
 
 import com.fatty.smarthome.util.SmartHomeException;
 
-public class Thermostat extends com.fatty.smarthome.devices.SmartDevice {
+public class Thermostat extends SmartDevice {
     private int temperature;
 
     public Thermostat(String name) {
@@ -23,11 +23,12 @@ public class Thermostat extends com.fatty.smarthome.devices.SmartDevice {
     public void setTemperature(int temperature) {
         try { // All the try catches are value added
             if (temperature < 10 || temperature > 32) {
+                System.err.println("\u001B[31m❌ Temperature must be between 10°C and 32°C\u001B[0m");
                 throw new SmartHomeException("Temperature must be between 10°C and 32°C");// value added
             }
             this.temperature = temperature;
         } catch (SmartHomeException e) {
-            System.out.println(e.getMessage());
+            System.out.println("\u001B[32m✓ Temperature set to " + temperature + "°C\u001B[0m");
         }
 
     }

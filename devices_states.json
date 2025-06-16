@@ -2,50 +2,66 @@
   {
     "deviceName": "LivingLight",
     "deviceType": "Light",
-    "isOn": false,
-    "status": "LivingLight is OFF",
-    "lastModified": "2025-06-15T16:48:15.516463",
+    "isOn": true,
+    "status": "LivingLight is ON",
+    "lastModified": "2025-06-16T17:13:54.821736",
     "isRecording": false
   },
   {
-    "deviceName": "MainThermostat",
+    "deviceName": "Mainthermostat",
     "deviceType": "Thermostat",
     "isOn": false,
-    "status": "MainThermostat is OFF, Temperature: 21°C",
-    "lastModified": "2025-06-15T16:48:15.516473",
+    "status": "Mainthermostat is OFF, Temperature: 21°C",
+    "lastModified": "2025-06-16T17:13:54.821839",
     "temperature": 21,
     "isRecording": false
   },
   {
-    "deviceName": "BedroomLight",
+    "deviceName": "bed_room_light",
     "deviceType": "Light",
-    "isOn": false,
-    "status": "BedroomLight is OFF",
-    "lastModified": "2025-06-15T16:48:15.516477",
+    "isOn": true,
+    "status": "bed_room_light is ON",
+    "lastModified": "2025-06-16T17:13:54.821848",
     "isRecording": false
   },
   {
-    "deviceName": "BathroomLight",
-    "deviceType": "Light",
+    "deviceName": "front_door_camera",
+    "deviceType": "SecurityCamera",
     "isOn": false,
-    "status": "BathroomLight is OFF",
-    "lastModified": "2025-06-15T16:48:15.516480",
+    "status": "front_door_camera is OFF",
+    "lastModified": "2025-06-16T17:13:54.821852",
     "isRecording": false
   },
   {
-    "deviceName": "CoffeeMaker",
+    "deviceName": "kitchen_light",
     "deviceType": "Light",
     "isOn": false,
-    "status": "CoffeeMaker is OFF",
-    "lastModified": "2025-06-15T16:48:15.516482",
+    "status": "kitchen_light is OFF",
+    "lastModified": "2025-06-16T17:13:54.821856",
     "isRecording": false
   },
   {
-    "deviceName": "BedroomThermostat",
+    "deviceName": "living_room_light",
+    "deviceType": "Light",
+    "isOn": false,
+    "status": "living_room_light is OFF",
+    "lastModified": "2025-06-16T17:13:54.821859",
+    "isRecording": false
+  },
+  {
+    "deviceName": "lobbyCamera",
+    "deviceType": "SecurityCamera",
+    "isOn": false,
+    "status": "lobbyCamera is OFF",
+    "lastModified": "2025-06-16T17:13:54.821862",
+    "isRecording": false
+  },
+  {
+    "deviceName": "main_thermostat",
     "deviceType": "Thermostat",
     "isOn": false,
-    "status": "BedroomThermostat is OFF, Temperature: 21°C",
-    "lastModified": "2025-06-15T16:48:15.516486",
+    "status": "main_thermostat is OFF, Temperature: 21°C",
+    "lastModified": "2025-06-16T17:13:54.821866",
     "temperature": 21,
     "isRecording": false
   }

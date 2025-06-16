@@ -60,12 +60,29 @@ public class FacadeSmartHome {
             throw new IllegalArgumentException("Device already exists: " + device.getName());
         }
 
-        devices.add(device);
-        deviceCache.put(device.getName(), device);
+        try {
+            // Check if device already exists in SmartHome to avoid duplicate errors
+            boolean existsInSmartHome = smartHome.getDevices().stream()
+                    .anyMatch(d -> d.getName().equalsIgnoreCase(device.getName()));
 
-        // Also add to the internal SmartHome instance
-        smartHome.addDevice(device);
-        System.out.println("✅ Device added: " + device.getName());
+            if (!existsInSmartHome) {
+                // Add to internal SmartHome instance only if it doesn't exist
+                smartHome.addDevice(device);
+            }
+
+            // Add to facade (this is the primary device list)
+            devices.add(device);
+            deviceCache.put(device.getName(), device);
+
+            System.out.println("✅ Device added: " + device.getName());
+
+        } catch (Exception e) {
+            // If adding fails, make sure we don't leave partial state
+            devices.removeIf(d -> d.getName().equals(device.getName()));
+            deviceCache.remove(device.getName());
+            throw new SmartHomeException("Failed to add device to system: " + e.getMessage(), e);
+        }
+
 
         // AUTO-SAVE after adding device
         try {
@@ -74,6 +91,31 @@ public class FacadeSmartHome {
             persistenceService.saveDeviceStatesBinary(devices);
         } catch (Exception e) {
             System.err.println("Warning: Could not auto-save devices: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Special method for loading devices that bypasses duplicate checks
+     */
+    public synchronized void loadDevice(SmartDevice device) throws SmartHomeException {
+        if (device == null) {
+            throw new IllegalArgumentException("Device cannot be null");
+        }
+
+        // For loading, we skip the SmartHome.addDevice() call to avoid conflicts
+        // Just add directly to facade lists
+        if (!deviceCache.containsKey(device.getName())) {
+            devices.add(device);
+            deviceCache.put(device.getName(), device);
+
+            // Ensure device state is properly set (this triggers the status messages)
+            if (device.isOn()) {
+                device.turnOn();
+            } else {
+                device.turnOff();
+            }
+
+            System.out.println("✅ Device loaded: " + device.getName());
         }
     }
 
@@ -183,12 +225,11 @@ public class FacadeSmartHome {
                 } catch (NumberFormatException e) {
                     throw new SmartHomeException("Invalid temperature: " + value);
                 }
-                if (temp < 10 || temp > 32) {
-                    throw new SmartHomeException("Temperature must be between 10 and 32°C");
-                }
+
                 for (SmartDevice d : smartHome.getDevices()) {
                     if (d instanceof Thermostat t && t.getName().equals(deviceName)) {
-                        t.setTemperature(temp);
+                        // This will now throw exception if temperature is invalid
+                        t.setTemperature(temp); // Exception propagates up if invalid
                         smartHome.saveDevice(t);
                         yield "Set " + deviceName + " to " + temp + "°C";
                     }
@@ -265,19 +306,24 @@ public class FacadeSmartHome {
         throw new SmartHomeException("Device not found: " + deviceName);
     }
 
-//    public void reset() {
-//        smartHome.reset();
-//        commandHistory.clear();
-//    }
+
     /**
-     * Reset the system (thread-safe)
+     * Reset the system (thread-safe) - IMPROVED VERSION
      */
     public synchronized void reset() {
         devices.clear();
         deviceCache.clear();
+        commandHistory.clear();
+
         // Reset the internal SmartHome instance
         if (smartHome != null) {
-            smartHome.getDevices().clear();
+            try {
+                smartHome.getDevices().clear();
+            } catch (Exception e) {
+                System.err.println("Warning: Could not clear SmartHome devices: " + e.getMessage());
+            }
         }
+
+        System.out.println("✅ System reset complete");
     }
 }

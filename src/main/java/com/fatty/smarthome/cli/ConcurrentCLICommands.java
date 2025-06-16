@@ -127,7 +127,7 @@ public class ConcurrentCLICommands {
      */
     private boolean handleAutomateCommand(String[] parts) {
         if (parts.length < 2) {
-            System.out.println("Usage: automate <start|stop|add|status>");
+            System.out.println("Usage: automate <start|stop|add|status|rules|light|run>");
             return true;
         }
 
@@ -135,11 +135,11 @@ public class ConcurrentCLICommands {
             case "start":
                 automationEngine.start();
                 setupDefaultRules();
-                break;
+                return true;
 
             case "stop":
                 automationEngine.stop();
-                break;
+                return true;
 
             case "add":
                 if (parts.length > 2) {
@@ -147,16 +147,21 @@ public class ConcurrentCLICommands {
                 } else {
                     System.out.println("Usage: automate add <rule-type> [parameters]");
                 }
-                break;
+                return true;
 
             case "status":
                 System.out.println(automationEngine.getStatus());
-                break;
+                return true;
+            case "rules":
+            case "light":
+            case "run":
+                return false;
 
             default:
                 System.out.println("Unknown automate command: " + parts[1]);
+                System.out.println("Available: start, stop, add, status, rules, light, run");
+                return true;
         }
-        return true;
     }
 
     /**
@@ -451,31 +456,34 @@ public class ConcurrentCLICommands {
      */
     public static String getConcurrentHelp() {
         return """
-            
-            CONCURRENT FEATURES:
-              monitor start/stop           Start/stop device monitoring
-              monitor stats <device>       Show device statistics
-              
-              automate start/stop          Start/stop automation engine
-              automate add <rule>          Add automation rule
-              automate status              Show automation status
-              
-              power monitor start/stop     Start/stop power monitoring
-              power threshold <watts>      Set power alert threshold
-              power optimize <watts>       Optimize to target power
-              power stats                  Show power statistics
-              
-              events start/stop            Start/stop event system
-              events stats                 Show event statistics
-              
-              concurrent test              Run concurrent test
-              concurrent control <action>  Control all devices concurrently
-              
-              simulate motion [camera]     Simulate motion detection
-              simulate malfunction <dev>   Simulate device malfunction
-              simulate temperature         Simulate temperature changes
-              
-              services                     Show all services status
-            """;
+        
+        CONCURRENT FEATURES:
+          monitor start/stop           Start/stop device monitoring
+          monitor stats <device>       Show device statistics
+          
+          automate start/stop          Start/stop automation engine
+          automate add <rule>          Add automation rule
+          automate status              Show automation status
+          automate rules               Show available automation rules (new)
+          automate light               Run light automation (new)
+          automate run <rule>          Run specific automation rule (new)
+          
+          power monitor start/stop     Start/stop power monitoring
+          power threshold <watts>      Set power alert threshold
+          power optimize <watts>       Optimize to target power
+          power stats                  Show power statistics
+          
+          events start/stop            Start/stop event system
+          events stats                 Show event statistics
+          
+          concurrent test              Run concurrent test
+          concurrent control <action>  Control all devices concurrently
+          
+          simulate motion [camera]     Simulate motion detection
+          simulate malfunction <dev>   Simulate device malfunction
+          simulate temperature         Simulate temperature changes
+          
+          services                     Show all services status
+        """;
     }
 }

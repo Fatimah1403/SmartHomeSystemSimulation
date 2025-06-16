@@ -1,41 +1,201 @@
 @startuml
-' Sequence Diagram for Add Security Rule and Automate Light Toggle (Assignment 5)
+' Complete Sequence Diagram for Smart Home System Operations
 
 autonumber
 actor User
 participant SmartHomeCLI as CLI
 participant ConcurrentCLICommands as CC
 participant FacadeSmartHome as F
+participant SmartHome as SH
 participant AutomationEngine as AE
 participant EventSystem as ES
 participant DeviceMonitor as DM
+participant PowerMonitoringService as PMS
+participant PersistenceService as PS
 participant ConcurrentSecurityCamera as CSC
 participant ConcurrentLight as CL
+participant Thermostat as TH
 
-User -> CLI: input "automate add security SecurityRule1"
-CLI -> CC: processCommand("automate add security SecurityRule1")
+title Complete Smart Home System Sequence
+
+== System Initialization ==
+User -> CLI: java SmartHomeCLI
+CLI -> F: getTheInstance()
+F -> SH: new SmartHome()
+F -> ES: new EventSystem()
+CLI -> CC: new ConcurrentCLICommands(facade)
+CC -> AE: new AutomationEngine(facade)
+CC -> DM: new DeviceMonitor(facade, eventSystem)
+CC -> PMS: new PowerMonitoringService(facade, eventSystem)
+CLI -> PS: new PersistenceService()
+CLI --> User: Show interface selection menu
+
+== Load Existing Devices ==
+User -> CLI: Select CLI mode
+CLI -> PS: loadDevicesDirectly()
+PS --> CLI: List<SmartDevice>
+loop For each loaded device
+    CLI -> F: loadDevice(device)
+    F -> SH: addDevice(device)
+end
+CLI --> User: "Loaded X device(s)"
+
+== Start Concurrent Services ==
+User -> CLI: "y" (start concurrent services)
+CLI -> CC: processConcurrentCommand("events start")
+CC -> ES: start()
+ES --> CC: Event system started
+CLI -> CC: processConcurrentCommand("monitor start")
+CC -> DM: startMonitoring()
+DM --> CC: Device monitoring started
+CLI -> CC: processConcurrentCommand("automate start")
+CC -> AE: start()
+AE -> AE: setupDefaultRules()
+AE --> CC: Automation engine started
+CLI -> CC: processConcurrentCommand("power monitor start")
+CC -> PMS: startMonitoring()
+PMS --> CC: Power monitoring started
+
+== Add New Device ==
+User -> CLI: "add LivingRoomLight light"
+CLI -> CLI: handleAdd(["add", "LivingRoomLight", "light"])
+CLI -> CL: new Light("LivingRoomLight")
+CLI -> F: addDevice(light)
+F -> SH: addDevice(light)
+CLI -> PS: logDeviceAction(light, "ADDED")
+CLI --> User: "Device 'LivingRoomLight' added successfully"
+User -> CLI: "y" (turn on device)
+CLI -> CL: turnOn()
+CL -> ES: publishEvent(DEVICE_STATE_CHANGED)
+ES -> DM: onEvent(event)
+CLI --> User: "Device turned on"
+
+== Automation Rules Management ==
+User -> CLI: "automate rules"
+CLI -> CLI: handleAutomation(["automate", "rules"])
+CLI -> CLI: showAvailableRules()
+CLI --> User: Display available automation rules
+
+User -> CLI: "automate light"
+CLI -> CLI: runLightAutomation()
+CLI -> F: smartHomeAccess("automate", "", "")
+F -> SH: runAutomation()
+SH -> SH: lightAutomationRule.visit(device)
+loop For each Light device
+    SH -> CL: visit(lightDevice)
+    alt Light is OFF
+        CL -> CL: turnOn()
+        CL -> ES: publishEvent(DEVICE_STATE_CHANGED)
+    end
+end
+SH --> F: "Automation completed"
+F --> CLI: automation result
+CLI --> User: "Light automation completed: X lights turned on"
+
+== Concurrent Rule Addition ==
+User -> CLI: "automate add security SecurityRule1"
+CLI -> CC: processConcurrentCommand("automate add security SecurityRule1")
 CC -> AE: addRule(new SecurityRule("SecurityRule1"))
-AE -> ES: publishEvent(Event(deviceName.getType(), source"SecurityRule1", data"Rule added"))
-AE --> CC
+AE -> ES: publishEvent(AUTOMATION_EXECUTED)
+AE --> CC: Rule added
 CC --> CLI: "✅ Added security rule: SecurityRule1"
-CLI --> User: display "✅ Added security rule: SecurityRule1"
 
-' Motion detection
-note right: DeviceMonitor runs periodically
+== Device Monitoring & Motion Detection ==
+note right of DM: Periodic monitoring (every 2 seconds)
 DM -> CSC: monitorDevice()
-CSC -> CSC: detectMotion()
-CSC -> ES: publishEvent(Event(MOTION_DETECTED, "FrontDoorCamera"))
-ES -> AE: notify listener
-AE -> F: execute SecurityRule
-F -> CL: turnOn()
-CL -> ES: publishEvent(Event(deviceName.getType(), source"LivingRoomLight", "Light ON"))
-ES --> CLI: "👁️ Motion detected by FrontDoorCamera\n✅ Turned on LivingRoomLight"
-CLI --> User: display "👁️ Motion detected by FrontDoorCamera\n✅ Turned on LivingRoomLight"
+CSC -> CSC: detectMotion() [simulated]
+CSC -> ES: publishEvent(MOTION_DETECTED, "FrontDoorCamera")
+ES -> AE: notify SecurityRule listener
+AE -> AE: execute SecurityRule
+loop For each Light device
+    AE -> CL: turnOn()
+    CL -> ES: publishEvent(DEVICE_STATE_CHANGED)
+end
+ES -> CLI: event notification
+CLI --> User: "👁️ Motion detected by FrontDoorCamera\n✅ Turned on LivingRoomLight"
 
-' Error case: Invalid rule parameters
-User -> CLI: input "automate add temperature TempRule invalid"
-CLI -> CC: processCommand("automate add temperature TempRule invalid"))
+== Power Monitoring & Optimization ==
+User -> CLI: "power optimize 1000"
+CLI -> CC: processConcurrentCommand("power optimize 1000")
+CC -> PMS: optimizePowerUsage(1000)
+PMS -> F: getDevices()
+F --> PMS: List<SmartDevice>
+PMS -> PMS: calculateTotalPowerUsage()
+alt Power usage > target
+    loop For high-power devices
+        PMS -> TH: turnOff() [if thermostat using too much power]
+        TH -> ES: publishEvent(DEVICE_STATE_CHANGED)
+    end
+end
+PMS -> ES: publishEvent(POWER_THRESHOLD_EXCEEDED)
+PMS --> CC: "Power optimized: reduced to 950W"
+CC --> CLI: Power optimization result
+
+== Temperature Control ==
+User -> CLI: "set OfficeThermo 22"
+CLI -> CLI: handleSet(["set", "OfficeThermo", "22"])
+CLI -> F: getDevice("OfficeThermo")
+F --> CLI: Optional<Thermostat>
+CLI -> TH: setTemperature(22)
+TH -> ES: publishEvent(TEMPERATURE_CHANGED)
+ES -> DM: onEvent(event)
+CLI -> PS: logDeviceAction(thermostat, "TEMPERATURE_SET")
+CLI --> User: "Temperature set to 22°C"
+
+== System Status & Reports ==
+User -> CLI: "report"
+CLI -> CLI: handleReport()
+CLI -> F: smartHomeAccess("report", "", "")
+F -> SH: reportStatus()
+SH -> SH: generateSystemReport()
+SH --> F: system status report
+F --> CLI: status report
+CLI --> User: Display system report with device states
+
+User -> CLI: "stats"
+CLI -> CLI: handleStats([])
+CLI -> PS: getSystemSummary()
+PS --> CLI: system statistics
+CLI --> User: Display system statistics
+
+== Save & Persistence ==
+User -> CLI: "save"
+CLI -> CLI: handleSave()
+CLI -> F: getDevices()
+F --> CLI: List<SmartDevice>
+CLI -> PS: saveDeviceStatesToDatabase(devices)
+CLI -> PS: saveDeviceStatesBinary(devices)
+CLI -> PS: saveDeviceStatesJson(devices)
+PS --> CLI: Save confirmation
+CLI --> User: "Saved X device(s)"
+
+== GUI Launch (Concurrent) ==
+User -> CLI: "gui"
+CLI -> CLI: launchGUI()
+CLI -> PS: saveAllDevices(devices) [before GUI launch]
+CLI -> CLI: Launch JavaFX in separate thread
+note right: GUI runs independently, CLI continues
+CLI --> User: "✅ GUI launch initiated\nNote: CLI remains active"
+
+== Error Handling ==
+User -> CLI: "automate add temperature TempRule invalid"
+CLI -> CC: processConcurrentCommand("automate add temperature TempRule invalid")
+CC -> CC: parseTemperatureRule() [fails]
 CC --> CLI: "❌ Error: Invalid tolerance value"
-CLI --> User: display "❌ Error: Invalid tolerance value"
+CLI --> User: "❌ Error: Invalid tolerance value"
+
+== System Shutdown ==
+User -> CLI: "exit"
+CLI -> CLI: handleExit()
+CLI -> F: getDevices()
+F --> CLI: List<SmartDevice>
+CLI -> PS: saveAllDevices(devices)
+CLI -> CC: shutdown()
+CC -> AE: stop()
+CC -> DM: stopMonitoring()
+CC -> PMS: stopMonitoring()
+CC -> ES: stop()
+CLI -> CLI: executorService.shutdown()
+CLI --> User: "Thank you for using Smart Home System. Goodbye!"
 
 @enduml
